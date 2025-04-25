@@ -18,6 +18,8 @@
       overflow-x: hidden;
       transition: background 0.5s ease, color 0.5s ease;
     }
+/*     From chatgpt  */
+
 
     #themeSelector {
       position: absolute;
@@ -70,14 +72,107 @@
       text-decoration: none;
       color: inherit;
     }
+/* this was added later , below comments part i just kept it for later*/
+.countdown {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 12px;
+  font-weight: bold;
+  color: #00ffe7;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
 
-    .countdown {
-      text-align: center;
-      font-size: 18px;
-      margin-top: 12px;
-      font-weight: bold;
-      color: #00ffe7;
-    }
+.countdown .time-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 255, 231, 0.1);
+  border: 1px solid #00ffe7;
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 70px;
+  transition: all 0.3s ease;
+}
+
+.countdown .time-box span {
+  font-size: 24px;
+  font-weight: 600;
+  color: #00ffe7;
+}
+
+.countdown .time-box small {
+  font-size: 12px;
+  color: #aaa;
+}
+
+#editCounter {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  color: #00ffe7;
+  transition: transform 0.2s ease;
+}
+
+#editCounter:hover {
+  transform: scale(1.1);
+}
+
+/*     #countdown {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}
+
+.time-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  animation: float 3s ease-in-out infinite;
+  min-width: 60px;
+}
+
+.time-box span {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.time-box small {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+#editCounter {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-top: 8px;
+  transition: transform 0.2s;
+}
+
+#editCounter:hover {
+  transform: scale(1.2);
+}
+ */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
 
     .section {
       margin: 40px;
@@ -132,6 +227,11 @@
 
     /* CSS exp end */
 
+  a {
+  text-decoration: none;
+  color: inherit; /* makes link color match the text color of the current theme */
+}
+
 
     .container {
       display: flex;
@@ -173,11 +273,7 @@
         transform: translateY(0);
       }
     }
-    a {
-      text-decoration: none;
-      color: var(--HyperA-color);
-      
-    }
+
   </style>
 </head>
 
@@ -319,34 +415,68 @@
   <!-- This is the end of the area. -->
 
 
-  <script>
-    const countdownElement = document.getElementById("countdown");
-    const endDate = new Date("2025-06-20");
-    const today = new Date();
-    const timeDiff = endDate - today;
-    const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    countdownElement.textContent = daysLeft + " days remaining until 20 June 2025";
+<script>
+  const countdownElement = document.getElementById("countdown");
 
-    const themeSelector = document.getElementById("themeSelector");
-    themeSelector.addEventListener("change", function () {
-      const root = document.documentElement;
-      if (this.value === "dark") {
-        root.style.setProperty("--bg-color", "radial-gradient(ellipse at bottom, #0b0c2a 0%, #000000 100%)");
-        root.style.setProperty("--text-color", "white");
-        root.style.setProperty("--HyperA-color", "white");
-        
-      } else if (this.value === "light") {
-        root.style.setProperty("--bg-color", "#f3f3f3");
-        root.style.setProperty("--text-color", "#111");
-        root.style.setProperty("--HyperA-color", "#111");
-      } else if (this.value === "image") {
-        // 🎨 Customize your background image below!
-        root.style.setProperty("--bg-color", "url('./citynight.jpg') no-repeat center center fixed");
-        root.style.setProperty("--text-color", "#fff"); // or "#000" for light images
-        root.style.setProperty("--HyperA-color", "#fff");
+  function updateCountdown(startDateStr, endDateStr) {
+    const endDate = new Date(endDateStr);
+    const now = new Date();
+
+    let diff = Math.max(0, endDate - now); // Prevent negative values
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff %= (1000 * 60 * 60 * 24);
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    diff %= (1000 * 60 * 60);
+    const minutes = Math.floor(diff / (1000 * 60));
+    diff %= (1000 * 60);
+    const seconds = Math.floor(diff / 1000);
+
+    countdownElement.innerHTML = `
+      <div class="time-box"><span>${days}</span><small>Days</small></div>
+      <div class="time-box"><span>${hours}</span><small>Hours</small></div>
+      <div class="time-box"><span>${minutes}</span><small>Minutes</small></div>
+      <div class="time-box"><span>${seconds}</span><small>Seconds</small></div>
+      <button id="editCounter" title="Edit countdown">✏️</button>
+    `;
+  }
+
+  let startDate = localStorage.getItem("startDate") || "2024-01-01";
+  let endDate = localStorage.getItem("endDate") || "2025-06-20";
+
+  updateCountdown(startDate, endDate);
+  setInterval(() => updateCountdown(startDate, endDate), 1000);
+
+  document.addEventListener("click", function (e) {
+    if (e.target.id === "editCounter") {
+      const newStart = prompt("Enter start date (YYYY-MM-DD):", startDate);
+      const newEnd = prompt("Enter end date (YYYY-MM-DD):", endDate);
+      if (newStart && newEnd) {
+        localStorage.setItem("startDate", newStart);
+        localStorage.setItem("endDate", newEnd);
+        startDate = newStart;
+        endDate = newEnd;
+        updateCountdown(startDate, endDate);
       }
-    });
-  </script>
+    }
+  });
+
+  const themeSelector = document.getElementById("themeSelector");
+  themeSelector.addEventListener("change", function () {
+    const root = document.documentElement;
+    if (this.value === "dark") {
+      root.style.setProperty("--bg-color", "radial-gradient(ellipse at bottom, #0b0c2a 0%, #000000 100%)");
+      root.style.setProperty("--text-color", "white");
+    } else if (this.value === "light") {
+      root.style.setProperty("--bg-color", "#f3f3f3");
+      root.style.setProperty("--text-color", "#111");
+    } else if (this.value === "image") {
+      root.style.setProperty("--bg-color", "url('./citynight.jpg') no-repeat center center fixed");
+      root.style.setProperty("--text-color", "#fff");
+    }
+  });
+</script>
+
 
 </body>
 
