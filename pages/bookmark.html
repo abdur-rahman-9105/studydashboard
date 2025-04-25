@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Bookmark Hub</title>
+  <style>
+    :root {
+      --bg-light: #f5f5f5;
+      --bg-dark: #1e1e1e;
+      --text-light: #000;
+      --text-dark: #f5f5f5;
+      --box-light: white;
+      --box-dark: #2e2e2e;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-dark: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: all 0.3s ease;
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 8px 12px;
+      border: none;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 500px;
+      margin: 0 auto;
+      gap: 10px;
+    }
+
+    input, textarea, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #bookmarks {
+      max-width: 700px;
+      margin: 30px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .bookmark {
+      background: var(--box-light);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px var(--shadow-light);
+      transition: background 0.3s;
+    }
+
+    body.dark .bookmark {
+      background: var(--box-dark);
+      box-shadow: 0 0 8px var(--shadow-dark);
+    }
+
+    .bookmark h3 {
+      margin: 0;
+    }
+
+    .bookmark p {
+      margin: 5px 0;
+      color: inherit;
+    }
+
+    .bookmark a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .bookmark button {
+      margin-top: 10px;
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      form, #bookmarks {
+        padding: 10px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
+  <h1>📌 Smart Bookmark Hub</h1>
+  <form id="bookmarkForm">
+    <input type="text" id="title" placeholder="Title" required />
+    <input type="url" id="url" placeholder="https://example.com" required />
+    <textarea id="note" placeholder="Optional note..."></textarea>
+    <button type="submit">Add Bookmark</button>
+  </form>
+
+  <div id="bookmarks"></div>
+
+  <script>
+    const form = document.getElementById('bookmarkForm');
+    const bookmarksDiv = document.getElementById('bookmarks');
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+
+    function saveBookmarks() {
+      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }
+
+    function renderBookmarks() {
+      bookmarksDiv.innerHTML = '';
+      bookmarks.forEach((bm, index) => {
+        const div = document.createElement('div');
+        div.className = 'bookmark';
+        div.innerHTML = `
+          <h3>${bm.title}</h3>
+          <a href="${bm.url}" target="_blank">${bm.url}</a>
+          <p>${bm.note || ''}</p>
+          <button onclick="deleteBookmark(${index})">Delete</button>
+        `;
+        bookmarksDiv.appendChild(div);
+      });
+    }
+
+    function deleteBookmark(index) {
+      bookmarks.splice(index, 1);
+      saveBookmarks();
+      renderBookmarks();
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value.trim();
+      const url = document.getElementById('url').value.trim();
+      const note = document.getElementById('note').value.trim();
+      bookmarks.push({ title, url, note });
+      saveBookmarks();
+      form.reset();
+      renderBookmarks();
+    });
+
+    renderBookmarks();
+
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    // Load theme on start
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+    }
+  </script>
+</body>
+</html>
