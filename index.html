@@ -141,7 +141,7 @@
       margin-top: 20px;
     }
 
-    .card:hover {
+    .card: hover {
       transform: scale(1.08);
       box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
     }
@@ -172,6 +172,11 @@
       100% {
         transform: translateY(0);
       }
+    }
+    a {
+      text-decoration: none;
+      color: var(--HyperA-color);
+      
     }
   </style>
 </head>
@@ -245,7 +250,9 @@
   <div class="multi-section">
     <div class="column">
       <h2>Click Here to Go to Dashboard</h2>
+      <div class="card"><a href="/pages/bookmark.html">SmartBookmark</a></div>
       <div class="card"><a href="/pages/dashboard.html">Dashboard</a></div>
+      
     </div>
 
     <!-- 🔁 Add more columns like this if needed -->
@@ -326,13 +333,17 @@
       if (this.value === "dark") {
         root.style.setProperty("--bg-color", "radial-gradient(ellipse at bottom, #0b0c2a 0%, #000000 100%)");
         root.style.setProperty("--text-color", "white");
+        root.style.setProperty("--HyperA-color", "white");
+        
       } else if (this.value === "light") {
         root.style.setProperty("--bg-color", "#f3f3f3");
         root.style.setProperty("--text-color", "#111");
+        root.style.setProperty("--HyperA-color", "#111");
       } else if (this.value === "image") {
         // 🎨 Customize your background image below!
         root.style.setProperty("--bg-color", "url('./citynight.jpg') no-repeat center center fixed");
         root.style.setProperty("--text-color", "#fff"); // or "#000" for light images
+        root.style.setProperty("--HyperA-color", "#fff");
       }
     });
   </script>
