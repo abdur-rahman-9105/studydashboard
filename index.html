@@ -1,113 +1,342 @@
-
-
-
-<!--
-=========================================================
-* Soft UI Dashboard 3 - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
-
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Starry Study Dashboard 🌌</title>
+  <style>
+    :root {
+      --bg-color: radial-gradient(ellipse at bottom, #0b0c2a 0%, #000000 100%);
+      --text-color: white;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    #themeSelector {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      color: inherit;
+      margin-top: 60px;
+      font-weight: 400;
+    }
+
+    .recent-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px auto 20px auto;
+      max-width: 1000px;
+      flex-wrap: wrap;
+    }
+
+    .recent-box {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00fff2;
+      padding: 20px;
+      min-width: 300px;
+      transition: background 0.3s;
+    }
+
+    .recent-box ul {
+      padding: 0;
+      list-style: none;
+      text-align: center;
+    }
+
+    .recent-box li {
+      padding: 8px 0;
+      font-size: 16px;
+    }
+
+    .recent-box a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .countdown {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #00ffe7;
+    }
+
+    .section {
+      margin: 40px;
+    }
+
+    /* CSS exp start  */
+
+    /* CSS PART */
+    .multi-section {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin: 40px auto;
+      max-width: 1200px;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      min-width: 200px;
+    }
+
+    /* Reuse your existing .card styling */
+    .card {
+      width: 180px;
+      height: 120px;
+      border-radius: 12px;
+      background: linear-gradient(270deg, #ed3a04, #060191, #545200);
+      background-size: 600% 600%;
+      animation: gradientShift 10s ease infinite, float 3s ease-in-out infinite;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 500;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      text-align: center;
+      text-shadow: 0 0 4px #000;
+    }
+
+    /* (Optional) If you want consistent spacing between sections */
+    .column h2 {
+      margin-bottom: 10px;
+    }
 
 
+    /* CSS exp end */
 
 
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
 
+    .card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
 
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
 
+      50% {
+        background-position: 100% 50%;
+      }
 
+      100% {
+        background-position: 0% 50%;
+      }
+    }
 
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
 
+      50% {
+        transform: translateY(-10px);
+      }
 
+      100% {
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
 
+<body>
 
+  <select id="themeSelector">
+    <option value="dark">🌑 Dark Theme</option>
+    <option value="light">☀️ Light Theme</option>
+    <option value="image">🌌 Image Theme</option>
+  </select>
 
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <h1>🌌 Study Dashboard</h1>
 
-<link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
-<link rel="icon" type="image/png" href="./assets/img/favicon.png">
-
-<title>
-  
-   Soft UI Dashboard 3  by Creative Tim
-  
-
-  
-
-  
-</title>
-
-
-
-<!--     Fonts and icons     -->
-<link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
-
-<!-- Nucleo Icons -->
-<link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css" rel="stylesheet" />
-<link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css" rel="stylesheet" />
-
-<!-- Font Awesome Icons -->
-<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-
-<!-- CSS Files -->
-
-
-
-<link id="pagestyle" href="./assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
-
-
-
-
-
-<!-- Nepcha Analytics (nepcha.com) -->
-<!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-<script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-
-
-  </head>
-
-
-  <body>
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<body class="vh-100">
-  <div class="container h-100">
-    <div class="row h-100">
-      <div class="col-10 m-auto text-center">
-        <h6>If you are not redirected automatically, follow <a href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html">this link</a>.</h6>
+  <div class="recent-wrapper">
+    <div class="recent-box">
+      <h2>HSC starts in ...</h2>
+      <!-- <ul>
+          <li><a href="ict1-topic1.html">ICT 1 - Binary Numbers</a></li>
+          <li><a href="math2-topic5.html">Math 2 - Integration</a></li>
+        </ul> -->
+      <div class="countdown" id="countdown"></div>
+    </div>
+    <div class="recent-box">
+      <h2>📂 Recent Opened Notes</h2>
+      <ul>
+        <li><a href="physics1-topic3.html">Physics 1 - Newton’s Law</a></li>
+        <li><a href="english2-topic7.html">English 2 - Vocabulary</a></li>
+      </ul>
+    </div>
+    <!-- <div class="recent-box">
+      <h2>🧠 Recent Study</h2>
+      <ul>
+        <li><a href="ict1-topic1.html">ICT 1 - Binary Numbers</a></li>
+        <li><a href="math2-topic5.html">Math 2 - Integration</a></li>
+      </ul>
+    <div class="countdown" id="countdown"></div> this is the part made by gpt 
+    </div> -->
+  </div>
+  <!-- 
+  <div class="section">
+    <h2>📘 Bangla</h2>
+    <div class="container">
+      <div class="card">Bangla 1</div>
+      <div class="card">Bangla 2</div>
+    </div>
+    This is the part i copy pasted from below.
+    <div class="section">
+      <h2>📙 English</h2>
+      <h2>📙 English</h2>        for now it's commenetd
+      <div class="container">
+        <div class="card">English 1</div> 
+        <div class="card">English 2</div>
+        <div class="card">Bangla 1</div>
+        <div class="card">Bangla 2</div>
       </div>
     </div>
+
+  </div> -->
+
+  <!-- <div class="section">
+    <h2>📙 English</h2>
+    <div class="container">
+      <div class="card">English 1</div>   ///This part , I am trying to put it with Bangla.
+      <div class="card">English 2</div>
+    </div>
+  </div> -->
+  <!-- Here i will use experiment the chatgpt code. -->
+
+  <!-- HTML PART -->
+  <div class="multi-section">
+    <div class="column">
+      <h2>Click Here to Go to Dashboard</h2>
+      <div class="card"><a href="/pages/dashboard.html">Dashboard</a></div>
+    </div>
+
+    <!-- 🔁 Add more columns like this if needed -->
   </div>
+
+
+  <div class="multi-section">
+    <div class="column">
+      <h2>📘 Bangla</h2>
+      <div class="card">Bangla 1</div>
+      <div class="card">Bangla 2</div>
+    </div>
+    <div class="column">
+      <h2>📙 English</h2>
+      <div class="card">English 1</div>
+      <div class="card">English 2</div>
+    </div>
+    <div class="column">
+      <h2>📙 ICT</h2>
+      <div class="card">ICT</div>
+      <div class="card">-</div>
+    </div>
+    <!-- 🔁 Add more columns like this if needed -->
+  </div>
+
+  <!-- Science part starts -->
+
+  <div class="multi-section">
+    <div class="column">
+      <h2>📐 Higher Math</h2>
+      <div class="card">Higher Math 1</div>
+      <div class="card">Higher Math 2</div>
+    </div>
+    <div class="column">
+      <h2>📙 Physics</h2>
+      <div class="card">Physics 1</div>
+      <div class="card">Physics 2</div>
+    </div>
+    <div class="column">
+      <h2>📘 Chemistry</h2>
+      <div class="card">Chemistry 1</div>
+      <div class="card">Chemistry 2</div>
+    </div>
+    <div class="column">
+      <h2>🧬 Biology</h2>
+      <div class="card">Biology 1</div>
+      <div class="card">Biology 2</div>
+    </div>
+    <!-- 🔁 Add more columns like this if needed -->
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- This is the end of the area. -->
+
+
+  <script>
+    const countdownElement = document.getElementById("countdown");
+    const endDate = new Date("2025-06-20");
+    const today = new Date();
+    const timeDiff = endDate - today;
+    const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    countdownElement.textContent = daysLeft + " days remaining until 20 June 2025";
+
+    const themeSelector = document.getElementById("themeSelector");
+    themeSelector.addEventListener("change", function () {
+      const root = document.documentElement;
+      if (this.value === "dark") {
+        root.style.setProperty("--bg-color", "radial-gradient(ellipse at bottom, #0b0c2a 0%, #000000 100%)");
+        root.style.setProperty("--text-color", "white");
+      } else if (this.value === "light") {
+        root.style.setProperty("--bg-color", "#f3f3f3");
+        root.style.setProperty("--text-color", "#111");
+      } else if (this.value === "image") {
+        // 🎨 Customize your background image below!
+        root.style.setProperty("--bg-color", "url('./citynight.jpg') no-repeat center center fixed");
+        root.style.setProperty("--text-color", "#fff"); // or "#000" for light images
+      }
+    });
+  </script>
+
 </body>
-
-
-  </body>
 
 </html>
