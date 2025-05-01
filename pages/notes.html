@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASG Compressed Note</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans Bengali', Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light {
+      background-color: #f7fafc;
+      color: #2d3748;
+    }
+
+    body.dark {
+      background-color: #2d3748;
+      color: #ffffff;
+    }
+
+    /* Login Page Styles */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100%;
+    }
+
+    .login-form {
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .login-form.light {
+      background-color: #ffffff;
+    }
+
+    .login-form.dark {
+      background-color: #4a5568;
+    }
+
+    .login-form h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .login-form label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .login-form.light label {
+      color: #4a5568;
+    }
+
+    .login-form.dark label {
+      color: #e2e8f0;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .login-form button {
+      width: 100%;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .login-form.light button {
+      background-color: #3182ce;
+      color: #ffffff;
+    }
+
+    .login-form.dark button {
+      background-color: #63b3ed;
+      color: #1a202c;
+    }
+
+    .login-form button:hover {
+      opacity: 0.9;
+    }
+
+    .login-form .error {
+      color: #e53e3e;
+      font-size: 14px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .login-form .toggle-auth {
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .login-form.light .toggle-auth {
+      color: #3182ce;
+    }
+
+    .login-form.dark .toggle-auth {
+      color: #63b3ed;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 256px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      padding-top: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar.light {
+      background-color: #ffffff;
+    }
+
+    .sidebar.dark {
+      background-color: #1a202c;
+    }
+
+    .sidebar .logo {
+      font-size: 20px;
+      font-weight: bold;
+      padding: 16px;
+    }
+
+    .sidebar.light .logo {
+      color: #2d3748;
+    }
+
+    .sidebar.dark .logo {
+      color: #ffffff;
+    }
+
+    .sidebar ul {
+      margin-top: 16px;
+      list-style: none;
+    }
+
+    .sidebar li {
+      padding: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .sidebar.light li {
+      color: #4a5568;
+    }
+
+    .sidebar.dark li {
+      color: #e2e8f0;
+    }
+
+    .sidebar.light li:hover {
+      background-color: #f7fafc;
+    }
+
+    .sidebar.dark li:hover {
+      background-color: #2d3748;
+    }
+
+    .sidebar li.active {
+      font-weight: 600;
+    }
+
+    .sidebar.light li.active {
+      background-color: #edf2f7;
+      color: #2d3748;
+    }
+
+    .sidebar.dark li.active {
+      background-color: #4a5568;
+      color: #ffffff;
+    }
+
+    .sidebar li.logout {
+      background-color: #fff1f1;
+    }
+
+    .sidebar.light li.logout {
+      color: #e53e3e;
+    }
+
+    .sidebar.dark li.logout {
+      background-color: #742a2a;
+      color: #ffffff;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      transition: background-color 0.3s;
+    }
+
+    .main-content.light {
+      background-color: #f7fafc;
+    }
+
+    .main-content.dark {
+      background-color: #2d3748;
+    }
+
+    /* Path Styles */
+    .path {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .path.light {
+      color: #4a5568;
+    }
+
+    .path.dark {
+      color: #e2e8f0;
+    }
+
+    .path span {
+      cursor: pointer;
+    }
+
+    .path.light span {
+      color: #3182ce;
+    }
+
+    .path.dark span {
+      color: #63b3ed;
+    }
+
+    .path span:hover {
+      text-decoration: underline;
+    }
+
+    .path span:not(:last-child)::after {
+      content: " / ";
+      margin: 0 4px;
+    }
+
+    .path.light span:not(:last-child)::after {
+      color: #4a5568;
+    }
+
+    .path.dark span:not(:last-child)::after {
+      color: #e2e8f0;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .theme-toggle.light {
+      background-color: #3182ce;
+      color: #ffffff;
+    }
+
+    .theme-toggle.dark {
+      background-color: #63b3ed;
+      color: #1a202c;
+    }
+
+    /* Button Grid (for Subjects, Papers, Chapters, Notes) */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+      text-align: center;
+    }
+
+    .card.light {
+      background-color: #ffffff;
+    }
+
+    .card.dark {
+      background-color: #4a5568;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-content {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .note-card {
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .note-card.light {
+      background-color: #ffffff;
+    }
+
+    .note-card.dark {
+      background-color: #4a5568;
+    }
+
+    .note-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .note-card img,
+    .note-card iframe {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border: none;
+    }
+
+    .note-card-content {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .note-card-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .add-card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 250px;
+      font-size: 48px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    .add-card.light {
+      background-color: #ffffff;
+      color: #4a5568;
+    }
+
+    .add-card.dark {
+      background-color: #4a5568;
+      color: #e2e8f0;
+    }
+
+    /* Add Page Styles */
+    .add-form {
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .add-form.light {
+      background-color: #ffffff;
+    }
+
+    .add-form.dark {
+      background-color: #4a5568;
+    }
+
+    .add-form h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .add-form label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .add-form.light label {
+      color: #4a5568;
+    }
+
+    .add-form.dark label {
+      color: #e2e8f0;
+    }
+
+    .add-form select,
+    .add-form input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .add-form button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .add-form.light button {
+      background-color: #3182ce;
+      color: #ffffff;
+    }
+
+    .add-form.dark button {
+      background-color: #63b3ed;
+      color: #1a202c;
+    }
+
+    .add-form button:hover {
+      opacity: 0.9;
+    }
+
+    /* Reminders Page Styles */
+    .reminders-container {
+      display: flex;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .reminders-section,
+    .todo-section {
+      flex: 1;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+
+    .reminders-section.light,
+    .todo-section.light {
+      background-color: #ffffff;
+    }
+
+    .reminders-section.dark,
+    .todo-section.dark {
+      background-color: #4a5568;
+    }
+
+    .reminders-section h2,
+    .todo-section h2 {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .todo-item input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .todo-item.completed label {
+      text-decoration: line-through;
+    }
+
+    .todo-item.light.completed label {
+      color: #a0aec0;
+    }
+
+    .todo-item.dark.completed label {
+      color: #a0aec0;
+    }
+
+    .reminder-card {
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .reminder-card.light {
+      background-color: #edf2f7;
+    }
+
+    .reminder-card.dark {
+      background-color: #718096;
+    }
+
+    .reminder-card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .reminder-card p {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .reminder-card.light p {
+      color: #4a5568;
+    }
+
+    .reminder-card.dark p {
+      color: #e2e8f0;
+    }
+
+    .reminder-card button {
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
+    .reminder-card.light button {
+      background-color: #e53e3e;
+      color: #ffffff;
+    }
+
+    .reminder-card.dark button {
+      background-color: #c53030;
+      color: #ffffff;
+    }
+
+    .reminder-form input,
+    .todo-form input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+    }
+
+    .reminder-form button,
+    .todo-form button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .reminder-form.light button,
+    .todo-form.light button {
+      background-color: #3182ce;
+      color: #ffffff;
+    }
+
+    .reminder-form.dark button,
+    .todo-form.dark button {
+      background-color: #63b3ed;
+      color: #1a202c;
+    }
+
+    /* PDF Viewer */
+    .pdf-viewer {
+      width: 100%;
+      height: 80vh;
+      border: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        box-shadow: none;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .main-content {
+        padding: 16px;
+      }
+
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reminders-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body class="light">
+  <!-- Login Page -->
+  <div class="login-container" id="login-container">
+    <div class="login-form light">
+      <h2 id="auth-title">Login</h2>
+      <div id="error-message" class="error"></div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="e.g., user@example.com">
+      <label for="password">Password:</label>
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="handleAuth()">Login</button>
+      <button onclick="handleAuth(true)">Sign Up</button>
+      <div class="toggle-auth light" onclick="toggleAuthMode()">
+        Don't have an account? Sign up
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Content (Hidden until logged in) -->
+  <div id="app-container" style="display: none;">
+    <div class="sidebar light">
+      <div class="logo">ASG Compressed Note</div>
+      <ul>
+        <li id="my-notes" class="active">My Notes</li>
+        <li id="add">Add</li>
+        <li id="reminders">Reminders</li>
+        <li id="profile">Profile</li>
+        <li id="invoices">Invoices</li>
+        <li id="settings">Settings</li>
+        <li id="logout" class="logout">Log Out</li>
+      </ul>
+    </div>
+
+    <div class="main-content light" id="main-content">
+      <button class="theme-toggle light" onclick="toggleTheme()">Dark Mode</button>
+
+      <!-- My Notes View (HSC Level) -->
+      <div id="my-notes-view">
+        <div class="path light">
+          <span onclick="navigateToPath(['Library'])">Library</span>
+          <span>এইচএসসি</span>
+        </div>
+        <div class="button-grid" id="hsc-subjects"></div>
+      </div>
+
+      <!-- Subject View (e.g., Physics) -->
+      <div id="subject-view" style="display: none;">
+        <div class="path light" id="subject-path"></div>
+        <div class="button-grid" id="subject-papers"></div>
+      </div>
+
+      <!-- Paper View (e.g., 1st Paper) -->
+      <div id="paper-view" style="display: none;">
+        <div class="path light" id="paper-path"></div>
+        <div class="button-grid" id="paper-chapters"></div>
+      </div>
+
+      <!-- Chapter View (e.g., Chapter 1) -->
+      <div id="chapter-view" style="display: none;">
+        <div class="path light" id="chapter-path"></div>
+        <div class="button-grid" id="chapter-notes"></div>
+      </div>
+
+      <!-- PDF Viewer View -->
+      <div id="pdf-viewer-view" style="display: none;">
+        <div class="path light" id="pdf-path"></div>
+        <iframe id="pdf-viewer" class="pdf-viewer"></iframe>
+      </div>
+
+      <!-- Add Page -->
+      <div id="add-view" style="display: none;">
+        <div class="add-form light">
+          <h2>Add/Update Note</h2>
+          <label for="add-subject">Subject:</label>
+          <select id="add-subject"></select>
+          <label for="add-paper">Paper:</label>
+          <select id="add-paper">
+            <option value="1st Paper">1st Paper</option>
+            <option value="2nd Paper">2nd Paper</option>
+          </select>
+          <label for="add-chapter">Chapter:</label>
+          <select id="add-chapter"></select>
+          <label for="add-note-title">Note Title:</label>
+          <input type="text" id="add-note-title" placeholder="e.g., Note 1">
+          <label for="add-note-link">Google Drive Link:</label>
+          <input type="text" id="add-note-link" placeholder="e.g., https://drive.google.com/file/d/...">
+          <button onclick="addOrUpdateNote()">Add/Update Note</button>
+        </div>
+      </div>
+
+      <!-- Reminders Page -->
+      <div id="reminders-view" style="display: none;">
+        <div class="reminders-container">
+          <div class="todo-section light">
+            <h2>To-Do List</h2>
+            <div class="todo-form light">
+              <input type="text" id="todo-input" placeholder="Add a to-do item">
+              <button onclick="addTodo()">Add</button>
+            </div>
+            <div id="todo-list"></div>
+          </div>
+          <div class="reminders-section light">
+            <h2>Reminders</h2>
+            <div class="reminder-form light">
+              <input type="text" id="reminder-title" placeholder="Reminder Title">
+              <input type="text" id="reminder-note" placeholder="Note">
+              <input type="datetime-local" id="reminder-time">
+              <button onclick="addReminder()">Add Reminder</button>
+            </div>
+            <div id="reminder-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSy9AKAJtsZI0WPjaLLJictp1SR1X8V2TQN4",
+      authDomain: "armyspace-66bee.firebaseapp.com",
+      databaseURL: "https://armyspace-66bee-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "armyspace-66bee",
+      storageBucket: "armyspace-66bee.appspot.com",
+      messagingSenderId: "89865891891",
+      appId: "1:89865891891:web:6b373b7cfe8b366353346"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const auth = firebase.auth();
+
+    const loginContainer = document.getElementById('login-container');
+    const appContainer = document.getElementById('app-container');
+    const errorMessage = document.getElementById('error-message');
+    const authTitle = document.getElementById('auth-title');
+    const toggleAuthText = document.querySelector('.toggle-auth');
+    let isSignUp = false;
+
+    // Authentication State Listener
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in
+        loginContainer.style.display = 'none';
+        appContainer.style.display = 'flex';
+        initializeApp();
+      } else {
+        // User is signed out
+        loginContainer.style.display = 'flex';
+        appContainer.style.display = 'none';
+      }
+    });
+
+    function toggleAuthMode() {
+      isSignUp = !isSignUp;
+      authTitle.textContent = isSignUp ? 'Sign Up' : 'Login';
+      toggleAuthText.textContent = isSignUp ? 'Already have an account? Login' : "Don't have an account? Sign up";
+    }
+
+    function handleAuth(signUp = false) {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        errorMessage.textContent = 'Please enter email and password';
+        return;
+      }
+
+      if (signUp) {
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            errorMessage.textContent = '';
+          })
+          .catch(error => {
+            errorMessage.textContent = error.message;
+          });
+      } else {
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            errorMessage.textContent = '';
+          })
+          .catch(error => {
+            errorMessage.textContent = error.message;
+          });
+      }
+    }
+
+    // App Logic (Only runs after login)
+    function initializeApp() {
+      const views = {
+        'my-notes': document.getElementById('my-notes-view'),
+        'subject': document.getElementById('subject-view'),
+        'paper': document.getElementById('paper-view'),
+        'chapter': document.getElementById('chapter-view'),
+        'pdf-viewer': document.getElementById('pdf-viewer-view'),
+        'add': document.getElementById('add-view'),
+        'reminders': document.getElementById('reminders-view'),
+      };
+
+      const sidebarItems = {
+        'my-notes': document.getElementById('my-notes'),
+        'add': document.getElementById('add'),
+        'reminders': document.getElementById('reminders'),
+        'profile': document.getElementById('profile'),
+        'invoices': document.getElementById('invoices'),
+        'settings': document.getElementById('settings'),
+        'logout': document.getElementById('logout'),
+      };
+
+      const hscSubjects = [
+        {
+          name: "উচ্চতর গণিত ১ম ও ২য় পত্র",
+          papers: {
+            "1st Paper": {},
+            "2nd Paper": {}
+          }
+        },
+        {
+          name: "পদার্থবিজ্ঞান",
+          papers: {
+            "1st Paper": {},
+            "2nd Paper": {}
+          }
+        },
+        {
+          name: "রসায়ন",
+          papers: {
+            "1st Paper": {},
+            "2nd Paper": {}
+          }
+        },
+        {
+          name: "জীববিজ্ঞান",
+          papers: {
+            "1st Paper": {},
+            "2nd Paper": {}
+          }
+        },
+        {
+          name: "কাজ, শক্তি ও সমতা",
+          papers: {
+            "1st Paper": {},
+            "2nd Paper": {}
+          }
+        },
+        {
+          name: "মৌলিক গণিত",
+          papers: {
+            "1st Paper": {},
+            "2nd Paper": {}
+          }
+        },
+        {
+          name: "নিউটনিয়ান বলবিদ্যা",
+          papers: {
+            "1st Paper": {},
+            "2nd Paper": {}
+          }
+        }
+      ];
+
+      const images = [
+        "./NotesImage/notes1.jpeg",
+        "./NotesImage/notes2.jpeg",
+        "./NotesImage/notes3.jpeg",
+        "./NotesImage/notes4.gif",
+        "./NotesImage/notes5.jpeg",
+        `<iframe src="https://assets.pinterest.com/ext/embed.html?id=140806233444915" height="160" width="100%" frameborder="0" scrolling="no"></iframe>`
+      ];
+
+      const defaultNotes = Array.from({ length: 10 }, (_, i) => ({
+        id: i + 1,
+        title: `Note ${i + 1}`,
+        image: images[Math.floor(Math.random() * images.length)],
+        pdfLink: "https://drive.google.com/file/d/1LOeJQPmAURlnqrivIA2nNnoPZu6ZRreU/view?usp=sharing"
+      }));
+
+      const defaultChapters = Array.from({ length: 15 }, (_, i) => ({
+        name: `Chapter ${i + 1}`,
+        notes: [...defaultNotes]
+      }));
+
+      // Initialize Firebase Data
+      hscSubjects.forEach(subject => {
+        subject.papers["1st Paper"] = [...defaultChapters];
+        subject.papers["2nd Paper"] = [...defaultChapters];
+        database.ref(`subjects/${subject.name}/1st Paper`).set(subject.papers["1st Paper"]);
+        database.ref(`subjects/${subject.name}/2nd Paper`).set(subject.papers["2nd Paper"]);
+      });
+
+      let currentPath = [];
+      let currentSubject = null;
+      let currentPaper = null;
+      let currentChapter = null;
+
+      function toggleTheme() {
+        const body = document.body;
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const themeToggle = document.querySelector('.theme-toggle');
+        const paths = document.querySelectorAll('.path');
+        const cards = document.querySelectorAll('.card, .note-card, .add-card, .add-form, .reminders-section, .todo-section, .reminder-card');
+        const todoForms = document.querySelectorAll('.todo-form');
+        const reminderForms = document.querySelectorAll('.reminder-form');
+
+        if (body.classList.contains('light')) {
+          body.classList.replace('light', 'dark');
+          sidebar.classList.replace('light', 'dark');
+          mainContent.classList.replace('light', 'dark');
+          themeToggle.classList.replace('light', 'dark');
+          themeToggle.textContent = 'Light Mode';
+          paths.forEach(path => path.classList.replace('light', 'dark'));
+          cards.forEach(card => card.classList.replace('light', 'dark'));
+          todoForms.forEach(form => form.classList.replace('light', 'dark'));
+          reminderForms.forEach(form => form.classList.replace('light', 'dark'));
+        } else {
+          body.classList.replace('dark', 'light');
+          sidebar.classList.replace('dark', 'light');
+          mainContent.classList.replace('dark', 'light');
+          themeToggle.classList.replace('dark', 'light');
+          themeToggle.textContent = 'Dark Mode';
+          paths.forEach(path => path.classList.replace('dark', 'light'));
+          cards.forEach(card => card.classList.replace('dark', 'light'));
+          todoForms.forEach(form => form.classList.replace('dark', 'light'));
+          reminderForms.forEach(form => form.classList.replace('dark', 'light'));
+        }
+      }
+
+      function showView(viewId) {
+        Object.values(views).forEach(view => view.style.display = 'none');
+        views[viewId].style.display = 'block';
+
+        Object.values(sidebarItems).forEach(item => item.classList.remove('active'));
+        sidebarItems[viewId]?.classList.add('active');
+      }
+
+      function navigateToPath(path) {
+        currentPath = path;
+        if (path.length === 1) {
+          showView('my-notes');
+          renderHscSubjects();
+        } else if (path.length === 2) {
+          currentSubject = hscSubjects.find(s => s.name === path[1]);
+          showView('subject');
+          renderSubjectPapers();
+        } else if (path.length === 3) {
+          currentPaper = path[2];
+          showView('paper');
+          renderPaperChapters();
+        } else if (path.length === 4) {
+          currentChapter = path[3];
+          showView('chapter');
+          renderChapterNotes();
+        }
+      }
+
+      function renderHscSubjects() {
+        const grid = document.getElementById('hsc-subjects');
+        grid.innerHTML = '';
+        hscSubjects.forEach(subject => {
+          const card = document.createElement('div');
+          card.className = 'card light';
+          card.innerHTML = `<div class="card-content"><h3>${subject.name}</h3></div>`;
+          card.onclick = () => {
+            currentPath = ['Library', subject.name];
+            navigateToPath(currentPath);
+          };
+          grid.appendChild(card);
+        });
+      }
+
+      function renderSubjectPapers() {
+        document.getElementById('subject-path').innerHTML = currentPath.map((part, index) => {
+          return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
+        }).join('');
+        const grid = document.getElementById('subject-papers');
+        grid.innerHTML = '';
+        ['1st Paper', '2nd Paper'].forEach(paper => {
+          const card = document.createElement('div');
+          card.className = 'card light';
+          card.innerHTML = `<div class="card-content"><h3>${paper}</h3></div>`;
+          card.onclick = () => {
+            currentPath = ['Library', currentSubject.name, paper];
+            navigateToPath(currentPath);
+          };
+          grid.appendChild(card);
+        });
+      }
+
+      function renderPaperChapters() {
+        document.getElementById('paper-path').innerHTML = currentPath.map((part, index) => {
+          return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
+        }).join('');
+        const grid = document.getElementById('paper-chapters');
+        grid.innerHTML = '';
+        database.ref(`subjects/${currentSubject.name}/${currentPaper}`).once('value', snapshot => {
+          const chapters = snapshot.val() || [];
+          chapters.forEach(chapter => {
+            const card = document.createElement('div');
+            card.className = 'card light';
+            card.innerHTML = `<div class="card-content"><h3>${chapter.name}</h3></div>`;
+            card.onclick = () => {
+              currentPath = ['Library', currentSubject.name, currentPaper, chapter.name];
+              navigateToPath(currentPath);
+            };
+            grid.appendChild(card);
+          });
+        });
+      }
+
+      function renderChapterNotes() {
+        document.getElementById('chapter-path').innerHTML = currentPath.map((part, index) => {
+          return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
+        }).join('');
+        const grid = document.getElementById('chapter-notes');
+        grid.innerHTML = '';
+        database.ref(`subjects/${currentSubject.name}/${currentPaper}`).once('value', snapshot => {
+          const chapters = snapshot.val() || [];
+          const chapterIndex = chapters.findIndex(ch => ch.name === currentChapter);
+          const notes = chapters[chapterIndex]?.notes || [];
+          notes.forEach(note => {
+            const card = document.createElement('div');
+            card.className = 'note-card light';
+            card.innerHTML = `
+              ${note.image.includes('iframe') ? note.image : `<img src="${note.image}" alt="${note.title}">`}
+              <div class="note-card-content">
+                <h3>${note.title}</h3>
+              </div>
+            `;
+            card.onclick = () => {
+              currentPath.push(note.title);
+              showView('pdf-viewer');
+              document.getElementById('pdf-path').innerHTML = currentPath.map((part, index) => {
+                return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
+              }).join('');
+              document.getElementById('pdf-viewer').src = note.pdfLink;
+            };
+            grid.appendChild(card);
+          });
+
+          // Add Card
+          const addCard = document.createElement('div');
+          addCard.className = 'add-card light';
+          addCard.textContent = '+';
+          addCard.onclick = () => showView('add');
+          grid.appendChild(addCard);
+        });
+      }
+
+      // Populate Add Page Dropdowns
+      function populateAddDropdowns() {
+        const subjectSelect = document.getElementById('add-subject');
+        const chapterSelect = document.getElementById('add-chapter');
+        subjectSelect.innerHTML = '';
+        chapterSelect.innerHTML = '';
+        hscSubjects.forEach(subject => {
+          const option = document.createElement('option');
+          option.value = subject.name;
+          option.textContent = subject.name;
+          subjectSelect.appendChild(option);
+        });
+        defaultChapters.forEach(chapter => {
+          const option = document.createElement('option');
+          option.value = chapter.name;
+          option.textContent = chapter.name;
+          chapterSelect.appendChild(option);
+        });
+      }
+
+      function addOrUpdateNote() {
+        const subject = document.getElementById('add-subject').value;
+        const paper = document.getElementById('add-paper').value;
+        const chapter = document.getElementById('add-chapter').value;
+        const title = document.getElementById('add-note-title').value;
+        const link = document.getElementById('add-note-link').value;
+
+        if (!title || !link) return;
+
+        database.ref(`subjects/${subject}/${paper}`).once('value', snapshot => {
+          const chapters = snapshot.val() || [];
+          const chapterIndex = chapters.findIndex(ch => ch.name === chapter);
+          let notes = chapters[chapterIndex]?.notes || [];
+          const noteIndex = notes.findIndex(note => note.title === title);
+
+          const newNote = {
+            id: noteIndex === -1 ? Date.now() : notes[noteIndex].id,
+            title: title,
+            image: images[Math.floor(Math.random() * images.length)],
+            pdfLink: link
+          };
+
+          if (noteIndex !== -1) {
+            notes[noteIndex] = newNote; // Update existing note
+          } else {
+            notes.push(newNote); // Add new note
+          }
+
+          chapters[chapterIndex].notes = notes;
+          database.ref(`subjects/${subject}/${paper}`).set(chapters);
+          showView('chapter');
+          navigateToPath(['Library', subject, paper, chapter]);
+        });
+      }
+
+      // To-Do List and Reminders
+      function addTodo() {
+        const input = document.getElementById('todo-input');
+        const text = input.value.trim();
+        if (!text) return;
+
+        const todo = { text: text, completed: false };
+        database.ref('todos').push(todo);
+        input.value = '';
+        renderTodos();
+      }
+
+      function renderTodos() {
+        const list = document.getElementById('todo-list');
+        list.innerHTML = '';
+        database.ref('todos').once('value', snapshot => {
+          const todos = snapshot.val() || {};
+          Object.entries(todos).forEach(([id, todo]) => {
+            const item = document.createElement('div');
+            item.className = 'todo-item' + (todo.completed ? ' completed' : '') + (document.body.classList.contains('light') ? ' light' : ' dark');
+            item.innerHTML = `
+              <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodo('${id}', ${!todo.completed})">
+              <label>${todo.text}</label>
+            `;
+            list.appendChild(item);
+          });
+        });
+      }
+
+      function toggleTodo(id, completed) {
+        database.ref(`todos/${id}`).update({ completed });
+        renderTodos();
+      }
+
+      function addReminder() {
+        const title = document.getElementById('reminder-title').value;
+        const note = document.getElementById('reminder-note').value;
+        const time = document.getElementById('reminder-time').value;
+
+        if (!title || !time) return;
+
+        const reminder = { title, note, time };
+        database.ref('reminders').push(reminder);
+
+        const reminderTime = new Date(time).getTime();
+        const now = Date.now();
+        setTimeout(() => {
+          alert(`Reminder: ${title}\n${note}`);
+        }, reminderTime - now);
+
+        document.getElementById('reminder-title').value = '';
+        document.getElementById('reminder-note').value = '';
+        document.getElementById('reminder-time').value = '';
+        renderReminders();
+      }
+
+      function renderReminders() {
+        const list = document.getElementById('reminder-list');
+        list.innerHTML = '';
+        database.ref('reminders').once('value', snapshot => {
+          const reminders = snapshot.val() || {};
+          Object.entries(reminders).forEach(([id, reminder]) => {
+            const card = document.createElement('div');
+            card.className = 'reminder-card' + (document.body.classList.contains('light') ? ' light' : ' dark');
+            card.innerHTML = `
+              <h3>${reminder.title}</h3>
+              <p>${reminder.note}</p>
+              <p>Time: ${new Date(reminder.time).toLocaleString()}</p>
+              <button onclick="deleteReminder('${id}')">Delete</button>
+            `;
+            list.appendChild(card);
+          });
+        });
+      }
+
+      function deleteReminder(id) {
+        database.ref(`reminders/${id}`).remove();
+        renderReminders();
+      }
+
+      // Sidebar Navigation
+      document.getElementById('my-notes').onclick = () => navigateToPath(['Library']);
+      document.getElementById('add').onclick = () => {
+        showView('add');
+        populateAddDropdowns();
+      };
+      document.getElementById('reminders').onclick = () => {
+        showView('reminders');
+        renderTodos();
+        renderReminders();
+      };
+      document.getElementById('profile').onclick = () => { };
+      document.getElementById('invoices').onclick = () => { };
+      document.getElementById('settings').onclick = () => { };
+      document.getElementById('logout').onclick = () => {
+        auth.signOut();
+      };
+
+      // Initial Render
+      navigateToPath(['Library']);
+    }
+  </script>
+</body>
+
+</html>
