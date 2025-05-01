@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -362,7 +363,8 @@
       transform: translateY(-4px);
     }
 
-    .note-card img, .note-card iframe {
+    .note-card img,
+    .note-card iframe {
       width: 100%;
       height: 160px;
       object-fit: cover;
@@ -436,7 +438,8 @@
       color: #e2e8f0;
     }
 
-    .add-form select, .add-form input {
+    .add-form select,
+    .add-form input {
       width: 100%;
       padding: 8px;
       margin-bottom: 16px;
@@ -473,7 +476,8 @@
       height: 100%;
     }
 
-    .reminders-section, .todo-section {
+    .reminders-section,
+    .todo-section {
       flex: 1;
       padding: 24px;
       border-radius: 12px;
@@ -481,15 +485,18 @@
       overflow-y: auto;
     }
 
-    .reminders-section.light, .todo-section.light {
+    .reminders-section.light,
+    .todo-section.light {
       background-color: #ffffff;
     }
 
-    .reminders-section.dark, .todo-section.dark {
+    .reminders-section.dark,
+    .todo-section.dark {
       background-color: #4a5568;
     }
 
-    .reminders-section h2, .todo-section h2 {
+    .reminders-section h2,
+    .todo-section h2 {
       font-size: 20px;
       margin-bottom: 16px;
     }
@@ -566,7 +573,8 @@
       color: #ffffff;
     }
 
-    .reminder-form input, .todo-form input {
+    .reminder-form input,
+    .todo-form input {
       width: 100%;
       padding: 8px;
       margin-bottom: 8px;
@@ -574,19 +582,22 @@
       border-radius: 4px;
     }
 
-    .reminder-form button, .todo-form button {
+    .reminder-form button,
+    .todo-form button {
       padding: 8px 16px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
     }
 
-    .reminder-form.light button, .todo-form.light button {
+    .reminder-form.light button,
+    .todo-form.light button {
       background-color: #3182ce;
       color: #ffffff;
     }
 
-    .reminder-form.dark button, .todo-form.dark button {
+    .reminder-form.dark button,
+    .todo-form.dark button {
       background-color: #63b3ed;
       color: #1a202c;
     }
@@ -624,6 +635,7 @@
     }
   </style>
 </head>
+
 <body class="light">
   <!-- Login Page -->
   <div class="login-container" id="login-container">
@@ -742,44 +754,37 @@
 
   <script>
     // Firebase Configuration
-// TODO: Replace this with the correct firebaseConfig from your Firebase Console
-const firebaseConfig = {
-  apiKey: "AIzaSyA9kAjTszIOWPja1LJictplSR1X8v2TQN4", // Replace with the correct API key from Firebase Console //replaced
-  authDomain: "armyspace-66bee.firebaseapp.com",
-  databaseURL: "https://armyspace-66bee-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "armyspace-66bee",
-  storageBucket: "armyspace-66bee.appspot.com",
-  messagingSenderId: "89865891891",
-  appId: "1:89865891891:web:6b373b7cfe03b6635f3346" // Replace with the correct appId //replaced
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyA9kAjTszIOWPja1LJictplSR1X8v2TQN4",
+      authDomain: "armyspace-66bee.firebaseapp.com",
+      databaseURL: "https://armyspace-66bee-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "armyspace-66bee",
+      storageBucket: "armyspace-66bee.appspot.com",
+      messagingSenderId: "89865891891",
+      appId: "1:89865891891:web:6b373b7cfe03b6635f3346"
+    };
 
     // Initialize Firebase
-    try {
-      firebase.initializeApp(firebaseConfig);
-      console.log('Firebase initialized successfully');
-    } catch (error) {
-      console.error('Firebase initialization failed:', error);
-      document.getElementById('error-message').textContent = 'Failed to initialize Firebase. Check console for details.';
-    }
-
+    firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     const auth = firebase.auth();
-    let isSignUp = false;
 
     const loginContainer = document.getElementById('login-container');
     const appContainer = document.getElementById('app-container');
     const errorMessage = document.getElementById('error-message');
     const authTitle = document.getElementById('auth-title');
     const toggleAuthText = document.querySelector('.toggle-auth');
+    let isSignUp = false;
 
     // Authentication State Listener
     auth.onAuthStateChanged(user => {
-      console.log('Auth state changed:', user);
       if (user) {
+        // User is signed in
         loginContainer.style.display = 'none';
         appContainer.style.display = 'flex';
         initializeApp();
       } else {
+        // User is signed out
         loginContainer.style.display = 'flex';
         appContainer.style.display = 'none';
       }
@@ -795,33 +800,25 @@ const firebaseConfig = {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      console.log('handleAuth called, signUp:', signUp, 'email:', email);
-
       if (!email || !password) {
         errorMessage.textContent = 'Please enter email and password';
         return;
       }
 
       if (signUp) {
-        console.log('Attempting sign-up...');
         auth.createUserWithEmailAndPassword(email, password)
           .then(() => {
-            console.log('Sign-up successful');
             errorMessage.textContent = '';
           })
           .catch(error => {
-            console.error('Sign-up error:', error);
             errorMessage.textContent = error.message;
           });
       } else {
-        console.log('Attempting sign-in...');
         auth.signInWithEmailAndPassword(email, password)
           .then(() => {
-            console.log('Sign-in successful');
             errorMessage.textContent = '';
           })
           .catch(error => {
-            console.error('Sign-in error:', error);
             errorMessage.textContent = error.message;
           });
       }
@@ -926,10 +923,8 @@ const firebaseConfig = {
       hscSubjects.forEach(subject => {
         subject.papers["1st Paper"] = [...defaultChapters];
         subject.papers["2nd Paper"] = [...defaultChapters];
-        database.ref(`subjects/${subject.name}/1st Paper`).set(subject.papers["1st Paper"])
-          .catch(error => console.error('Error initializing 1st Paper:', error));
-        database.ref(`subjects/${subject.name}/2nd Paper`).set(subject.papers["2nd Paper"])
-          .catch(error => console.error('Error initializing 2nd Paper:', error));
+        database.ref(`subjects/${subject.name}/1st Paper`).set(subject.papers["1st Paper"]);
+        database.ref(`subjects/${subject.name}/2nd Paper`).set(subject.papers["2nd Paper"]);
       });
 
       let currentPath = [];
@@ -1049,8 +1044,6 @@ const firebaseConfig = {
             };
             grid.appendChild(card);
           });
-        }).catch(error => {
-          console.error('Error fetching chapters:', error);
         });
       }
 
@@ -1090,8 +1083,6 @@ const firebaseConfig = {
           addCard.textContent = '+';
           addCard.onclick = () => showView('add');
           grid.appendChild(addCard);
-        }).catch(error => {
-          console.error('Error fetching notes:', error);
         });
       }
 
@@ -1144,16 +1135,9 @@ const firebaseConfig = {
           }
 
           chapters[chapterIndex].notes = notes;
-          database.ref(`subjects/${subject}/${paper}`).set(chapters)
-            .then(() => {
-              showView('chapter');
-              navigateToPath(['Library', subject, paper, chapter]);
-            })
-            .catch(error => {
-              console.error('Error saving note:', error);
-            });
-        }).catch(error => {
-          console.error('Error fetching chapters for update:', error);
+          database.ref(`subjects/${subject}/${paper}`).set(chapters);
+          showView('chapter');
+          navigateToPath(['Library', subject, paper, chapter]);
         });
       }
 
@@ -1164,14 +1148,9 @@ const firebaseConfig = {
         if (!text) return;
 
         const todo = { text: text, completed: false };
-        database.ref('todos').push(todo)
-          .then(() => {
-            input.value = '';
-            renderTodos();
-          })
-          .catch(error => {
-            console.error('Error adding todo:', error);
-          });
+        database.ref('todos').push(todo);
+        input.value = '';
+        renderTodos();
       }
 
       function renderTodos() {
@@ -1188,17 +1167,12 @@ const firebaseConfig = {
             `;
             list.appendChild(item);
           });
-        }).catch(error => {
-          console.error('Error fetching todos:', error);
         });
       }
 
       function toggleTodo(id, completed) {
-        database.ref(`todos/${id}`).update({ completed })
-          .then(() => renderTodos())
-          .catch(error => {
-            console.error('Error updating todo:', error);
-          });
+        database.ref(`todos/${id}`).update({ completed });
+        renderTodos();
       }
 
       function addReminder() {
@@ -1209,22 +1183,18 @@ const firebaseConfig = {
         if (!title || !time) return;
 
         const reminder = { title, note, time };
-        database.ref('reminders').push(reminder)
-          .then(() => {
-            const reminderTime = new Date(time).getTime();
-            const now = Date.now();
-            setTimeout(() => {
-              alert(`Reminder: ${title}\n${note}`);
-            }, reminderTime - now);
+        database.ref('reminders').push(reminder);
 
-            document.getElementById('reminder-title').value = '';
-            document.getElementById('reminder-note').value = '';
-            document.getElementById('reminder-time').value = '';
-            renderReminders();
-          })
-          .catch(error => {
-            console.error('Error adding reminder:', error);
-          });
+        const reminderTime = new Date(time).getTime();
+        const now = Date.now();
+        setTimeout(() => {
+          alert(`Reminder: ${title}\n${note}`);
+        }, reminderTime - now);
+
+        document.getElementById('reminder-title').value = '';
+        document.getElementById('reminder-note').value = '';
+        document.getElementById('reminder-time').value = '';
+        renderReminders();
       }
 
       function renderReminders() {
@@ -1243,17 +1213,12 @@ const firebaseConfig = {
             `;
             list.appendChild(card);
           });
-        }).catch(error => {
-          console.error('Error fetching reminders:', error);
         });
       }
 
       function deleteReminder(id) {
-        database.ref(`reminders/${id}`).remove()
-          .then(() => renderReminders())
-          .catch(error => {
-            console.error('Error deleting reminder:', error);
-          });
+        database.ref(`reminders/${id}`).remove();
+        renderReminders();
       }
 
       // Sidebar Navigation
@@ -1267,13 +1232,11 @@ const firebaseConfig = {
         renderTodos();
         renderReminders();
       };
-      document.getElementById('profile').onclick = () => {};
-      document.getElementById('invoices').onclick = () => {};
-      document.getElementById('settings').onclick = () => {};
+      document.getElementById('profile').onclick = () => { };
+      document.getElementById('invoices').onclick = () => { };
+      document.getElementById('settings').onclick = () => { };
       document.getElementById('logout').onclick = () => {
-        auth.signOut()
-          .then(() => console.log('User signed out'))
-          .catch(error => console.error('Sign-out error:', error));
+        auth.signOut();
       };
 
       // Initial Render
@@ -1281,4 +1244,5 @@ const firebaseConfig = {
     }
   </script>
 </body>
+
 </html>
