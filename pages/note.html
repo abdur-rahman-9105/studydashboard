@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    // Mock data simulating a folder structure
+    const mockData = {
+      "Library": {
+        "উচ্চমাধ্যমিক": {
+          "প্রাথমিক বিজ্ঞান": {
+            "এস এস সি": [
+              {
+                id: 1,
+                title: "প্রাথমিক বিজ্ঞান এস এস সি",
+                subtitle: "মেকানিক্যাল এন্ড ইলেকট্রিকা",
+                image: "https://via.placeholder.com/150/2E7D32/FFFFFF?text=Image+1",
+                subItems: [
+                  { id: 11, title: "নোট ১", content: "এটি প্রাথমিক বিজ্ঞানের নোট..." },
+                  { id: 12, title: "নোট ২", content: "এটি আরেকটি নোট..." }
+                ]
+              },
+              {
+                id: 2,
+                title: "জন - অনুভূতি",
+                subtitle: "প্রাথমিক বিজ্ঞান এস এস সি - জন ও অনুভূতি",
+                image: "https://via.placeholder.com/150/6D28D9/FFFFFF?text=Image+2",
+                subItems: [
+                  { id: 21, title: "নোট ৩", content: "জন ও অনুভূতির নোট..." }
+                ]
+              },
+              {
+                id: 3,
+                title: "OXYGEN BOOK",
+                subtitle: "মেকানিক্যাল এন্ড ইলেকট্রিকা",
+                image: "https://via.placeholder.com/150/991B1B/FFFFFF?text=Image+3",
+                subItems: [
+                  { id: 31, title: "নোট ৪", content: "অক্সিজেন বুকের নোট..." }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const App = () => {
+      const [currentPath, setCurrentPath] = useState(["Library", "উচ্চমাধ্যমিক", "প্রাথমিক বিজ্ঞান", "এস এস সি"]);
+      const [currentItems, setCurrentItems] = useState(mockData["Library"]["উচ্চমাধ্যমিক"]["প্রাথমিক বিজ্ঞান"]["এস এস সি"]);
+
+      // Navigate to a new path
+      const navigateToPath = (newPath) => {
+        setCurrentPath(newPath);
+        let items = mockData;
+        for (let i = 0; i < newPath.length; i++) {
+          items = items[newPath[i]];
+        }
+        setCurrentItems(Array.isArray(items) ? items : []);
+      };
+
+      // Handle card click to show sub-items
+      const handleCardClick = (item) => {
+        if (item.subItems) {
+          setCurrentItems(item.subItems);
+        }
+      };
+
+      return (
+        <div className="flex h-screen bg-gray-50">
+          {/* Sidebar */}
+          <div className="w-64 bg-white shadow-md">
+            <div className="p-4">
+              <h1 className="text-xl font-bold text-gray-800">ASG Compressed Note</h1>
+            </div>
+            <ul className="mt-4">
+              <li className="p-4 text-gray-800 font-semibold bg-gray-100">Dashboard</li>
+              <li className="p-4 text-gray-600 hover:bg-gray-100 cursor-pointer">My Notes</li>
+              <li className="p-4 text-gray-600 hover:bg-gray-100 cursor-pointer">Shop</li>
+              <li className "p-4 text-gray-600 hover:bg-gray-100 cursor-pointer">Profile</li>
+              <li className="p-4 text-gray-600 hover:bg-gray-100 cursor-pointer">Invoices</li>
+              <li className="p-4 text-gray-600 hover:bg-gray-100 cursor-pointer">Settings</li>
+              <li className="p-4 text-red-600 hover:bg-gray-100 cursor-pointer">Log Out</li>
+            </ul>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 p-6 bg-white">
+            {/* Breadcrumb Navigation */}
+            <div className="mb-6">
+              {currentPath.map((path, index) => (
+                <span key={index}>
+                  <button
+                    className="text-blue-600 hover:underline"
+                    onClick={() => navigateToPath(currentPath.slice(0, index + 1))}
+                  >
+                    {path}
+                  </button>
+                  {index < currentPath.length - 1 && <span className="mx-2">/</span>}
+                </span>
+              ))}
+            </div>
+
+            {/* Content Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {currentItems.map(item => (
+                <div
+                  key={item.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+                  onClick={() => handleCardClick(item)}
+                >
+                  <img src={item.image} alt={item.title} className="w-full h-40 object-cover" />
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <p className="text-gray-600">{item.subtitle || item.content}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
