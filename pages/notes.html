@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,6 +34,26 @@
       color: #ffffff;
     }
 
+    /* Loading Screen */
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100%;
+      font-size: 24px;
+    }
+
+    .loading-container.light {
+      background-color: #f7fafc;
+      color: #2d3748;
+    }
+
+    .loading-container.dark {
+      background-color: #2d3748;
+      color: #ffffff;
+    }
+
     /* Login Page Styles */
     .login-container {
       display: flex;
@@ -42,6 +61,7 @@
       align-items: center;
       height: 100vh;
       width: 100%;
+      padding: 16px;
     }
 
     .login-form {
@@ -91,11 +111,12 @@
 
     .login-form button {
       width: 100%;
-      padding: 8px 16px;
+      padding: 12px 16px; /* Larger tap target for mobile */
       border: none;
       border-radius: 4px;
       cursor: pointer;
       margin-bottom: 8px;
+      font-size: 16px;
     }
 
     .login-form.light button {
@@ -123,6 +144,7 @@
       text-align: center;
       font-size: 14px;
       cursor: pointer;
+      padding: 8px; /* Larger tap target for mobile */
     }
 
     .login-form.light .toggle-auth {
@@ -139,6 +161,10 @@
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       padding-top: 16px;
       transition: background-color 0.3s;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
     }
 
     .sidebar.light {
@@ -166,12 +192,14 @@
     .sidebar ul {
       margin-top: 16px;
       list-style: none;
+      flex: 1;
     }
 
     .sidebar li {
       padding: 16px;
       cursor: pointer;
       transition: background-color 0.2s;
+      font-size: 16px;
     }
 
     .sidebar.light li {
@@ -204,16 +232,24 @@
       color: #ffffff;
     }
 
-    .sidebar li.logout {
-      background-color: #fff1f1;
+    /* Updated Logout Button */
+    .sidebar .logout-btn {
+      margin: 16px;
+      padding: 12px 16px; /* Larger tap target for mobile */
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 16px;
     }
 
-    .sidebar.light li.logout {
-      color: #e53e3e;
+    .sidebar.light .logout-btn {
+      background-color: #e53e3e;
+      color: #ffffff;
     }
 
-    .sidebar.dark li.logout {
-      background-color: #742a2a;
+    .sidebar.dark .logout-btn {
+      background-color: #c53030;
       color: #ffffff;
     }
 
@@ -249,6 +285,7 @@
 
     .path span {
       cursor: pointer;
+      padding: 4px; /* Larger tap target for mobile */
     }
 
     .path.light span {
@@ -281,10 +318,11 @@
       position: fixed;
       top: 16px;
       right: 16px;
-      padding: 8px;
+      padding: 12px; /* Larger tap target for mobile */
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
     }
 
     .theme-toggle.light {
@@ -363,8 +401,7 @@
       transform: translateY(-4px);
     }
 
-    .note-card img,
-    .note-card iframe {
+    .note-card img, .note-card iframe {
       width: 100%;
       height: 160px;
       object-fit: cover;
@@ -408,6 +445,7 @@
       border-radius: 12px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       max-width: 600px;
+      width: 100%;
       margin: 0 auto;
     }
 
@@ -438,8 +476,7 @@
       color: #e2e8f0;
     }
 
-    .add-form select,
-    .add-form input {
+    .add-form select, .add-form input {
       width: 100%;
       padding: 8px;
       margin-bottom: 16px;
@@ -449,10 +486,11 @@
     }
 
     .add-form button {
-      padding: 8px 16px;
+      padding: 12px 16px; /* Larger tap target for mobile */
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
     }
 
     .add-form.light button {
@@ -469,6 +507,60 @@
       opacity: 0.9;
     }
 
+    /* Profile Page Styles */
+    .profile-container {
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .profile-container.light {
+      background-color: #ffffff;
+    }
+
+    .profile-container.dark {
+      background-color: #4a5568;
+    }
+
+    .profile-container h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .profile-container p {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .profile-container.light p {
+      color: #4a5568;
+    }
+
+    .profile-container.dark p {
+      color: #e2e8f0;
+    }
+
+    .profile-container button {
+      padding: 12px 16px; /* Larger tap target for mobile */
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .profile-container.light button {
+      background-color: #e53e3e;
+      color: #ffffff;
+    }
+
+    .profile-container.dark button {
+      background-color: #c53030;
+      color: #ffffff;
+    }
+
     /* Reminders Page Styles */
     .reminders-container {
       display: flex;
@@ -476,8 +568,7 @@
       height: 100%;
     }
 
-    .reminders-section,
-    .todo-section {
+    .reminders-section, .todo-section {
       flex: 1;
       padding: 24px;
       border-radius: 12px;
@@ -485,18 +576,15 @@
       overflow-y: auto;
     }
 
-    .reminders-section.light,
-    .todo-section.light {
+    .reminders-section.light, .todo-section.light {
       background-color: #ffffff;
     }
 
-    .reminders-section.dark,
-    .todo-section.dark {
+    .reminders-section.dark, .todo-section.dark {
       background-color: #4a5568;
     }
 
-    .reminders-section h2,
-    .todo-section h2 {
+    .reminders-section h2, .todo-section h2 {
       font-size: 20px;
       margin-bottom: 16px;
     }
@@ -509,6 +597,8 @@
 
     .todo-item input[type="checkbox"] {
       margin-right: 8px;
+      width: 20px;
+      height: 20px; /* Larger checkbox for mobile */
     }
 
     .todo-item.completed label {
@@ -556,11 +646,12 @@
     }
 
     .reminder-card button {
-      padding: 4px 8px;
+      padding: 8px 12px; /* Larger tap target for mobile */
       border: none;
       border-radius: 4px;
       cursor: pointer;
       margin-left: 8px;
+      font-size: 14px;
     }
 
     .reminder-card.light button {
@@ -573,31 +664,29 @@
       color: #ffffff;
     }
 
-    .reminder-form input,
-    .todo-form input {
+    .reminder-form input, .todo-form input {
       width: 100%;
       padding: 8px;
       margin-bottom: 8px;
       border: 1px solid #e2e8f0;
       border-radius: 4px;
+      font-size: 14px;
     }
 
-    .reminder-form button,
-    .todo-form button {
-      padding: 8px 16px;
+    .reminder-form button, .todo-form button {
+      padding: 12px 16px; /* Larger tap target for mobile */
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
     }
 
-    .reminder-form.light button,
-    .todo-form.light button {
+    .reminder-form.light button, .todo-form.light button {
       background-color: #3182ce;
       color: #ffffff;
     }
 
-    .reminder-form.dark button,
-    .todo-form.dark button {
+    .reminder-form.dark button, .todo-form.dark button {
       background-color: #63b3ed;
       color: #1a202c;
     }
@@ -609,36 +698,111 @@
       border: none;
     }
 
-    /* Responsive Design */
+    .pdf-fallback {
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .pdf-fallback a {
+      color: #3182ce;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .pdf-fallback a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mobile Responsiveness */
     @media (max-width: 768px) {
       body {
         flex-direction: column;
+        overflow-y: auto; /* Allow scrolling on mobile */
       }
 
       .sidebar {
         width: 100%;
         box-shadow: none;
         border-bottom: 1px solid #e2e8f0;
+        height: auto;
+        padding-bottom: 0;
+      }
+
+      .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 8px 0;
+      }
+
+      .sidebar li {
+        flex: 1;
+        text-align: center;
+        padding: 12px 8px;
+        font-size: 14px;
+      }
+
+      .sidebar .logout-btn {
+        width: calc(100% - 32px); /* Account for margin */
+        margin: 8px 16px;
+        padding: 12px;
       }
 
       .main-content {
         padding: 16px;
       }
 
+      .theme-toggle {
+        top: auto;
+        bottom: 16px;
+        right: 16px;
+      }
+
       .button-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .card {
+        height: 150px; /* Smaller height for mobile */
+      }
+
+      .note-card img, .note-card iframe {
+        height: 120px; /* Smaller image height for mobile */
+      }
+
+      .add-card {
+        height: 150px;
+        font-size: 36px;
       }
 
       .reminders-container {
         flex-direction: column;
+        gap: 16px;
+      }
+
+      .pdf-viewer {
+        height: 50vh; /* Smaller height for mobile */
+      }
+
+      .login-container, .add-form, .profile-container {
+        padding: 16px;
+      }
+
+      .login-form, .add-form, .profile-container {
+        padding: 16px;
       }
     }
   </style>
 </head>
-
 <body class="light">
+  <!-- Loading Screen -->
+  <div class="loading-container light" id="loading-container">
+    Loading...
+  </div>
+
   <!-- Login Page -->
-  <div class="login-container" id="login-container">
+  <div class="login-container" id="login-container" style="display: none;">
     <div class="login-form light">
       <h2 id="auth-title">Login</h2>
       <div id="error-message" class="error"></div>
@@ -665,8 +829,8 @@
         <li id="profile">Profile</li>
         <li id="invoices">Invoices</li>
         <li id="settings">Settings</li>
-        <li id="logout" class="logout">Log Out</li>
       </ul>
+      <button class="logout-btn light" id="logout">Log Out</button>
     </div>
 
     <div class="main-content light" id="main-content">
@@ -703,6 +867,9 @@
       <div id="pdf-viewer-view" style="display: none;">
         <div class="path light" id="pdf-path"></div>
         <iframe id="pdf-viewer" class="pdf-viewer"></iframe>
+        <div class="pdf-fallback">
+          <p>If the PDF doesn't load, <a id="pdf-fallback-link" href="" target="_blank">click here to open it in a new tab</a>.</p>
+        </div>
       </div>
 
       <!-- Add Page -->
@@ -721,8 +888,17 @@
           <label for="add-note-title">Note Title:</label>
           <input type="text" id="add-note-title" placeholder="e.g., Note 1">
           <label for="add-note-link">Google Drive Link:</label>
-          <input type="text" id="add-note-link" placeholder="e.g., https://drive.google.com/file/d/...">
+          <input type="text" id="add-note-link" placeholder="e.g., https://drive.google.com/file/d/.../preview">
           <button onclick="addOrUpdateNote()">Add/Update Note</button>
+        </div>
+      </div>
+
+      <!-- Profile Page -->
+      <div id="profile-view" style="display: none;">
+        <div class="profile-container light">
+          <h2>Profile</h2>
+          <p>Email: <span id="user-email"></span></p>
+          <button onclick="logout()">Log Out</button>
         </div>
       </div>
 
@@ -753,38 +929,50 @@
   </div>
 
   <script>
-    // Firebase Configuration
+    // Firebase Configuration with Provided Values
     const firebaseConfig = {
-      apiKey: "AIzaSyA9kAjTszIOWPja1LJictplSR1X8v2TQN4",
+      apiKey: "AIzaSyA9kAjTszIOWPja1LJictplSR1X8v2TQN4", // Provided API key (may be invalid)
       authDomain: "armyspace-66bee.firebaseapp.com",
       databaseURL: "https://armyspace-66bee-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "armyspace-66bee",
       storageBucket: "armyspace-66bee.appspot.com",
       messagingSenderId: "89865891891",
-      appId: "1:89865891891:web:6b373b7cfe03b6635f3346"
+      appId: "1:89865891891:web:6b373b7cfe03b6635f3346" // Provided appId
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    try {
+      firebase.initializeApp(firebaseConfig);
+      console.log('Firebase initialized successfully');
+    } catch (error) {
+      console.error('Firebase initialization failed:', error);
+      document.getElementById('error-message').textContent = 'Failed to initialize Firebase. Check console for details.';
+    }
+
     const database = firebase.database();
     const auth = firebase.auth();
+    let isSignUp = false;
 
+    const loadingContainer = document.getElementById('loading-container');
     const loginContainer = document.getElementById('login-container');
     const appContainer = document.getElementById('app-container');
     const errorMessage = document.getElementById('error-message');
     const authTitle = document.getElementById('auth-title');
     const toggleAuthText = document.querySelector('.toggle-auth');
-    let isSignUp = false;
 
-    // Authentication State Listener
+    // Authentication State Listener with Loading State
     auth.onAuthStateChanged(user => {
+      console.log('Auth state changed:', user);
       if (user) {
         // User is signed in
+        loadingContainer.style.display = 'none';
         loginContainer.style.display = 'none';
         appContainer.style.display = 'flex';
+        document.getElementById('user-email').textContent = user.email; // Set email in profile view
         initializeApp();
       } else {
         // User is signed out
+        loadingContainer.style.display = 'none';
         loginContainer.style.display = 'flex';
         appContainer.style.display = 'none';
       }
@@ -800,28 +988,45 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
+      console.log('handleAuth called, signUp:', signUp, 'email:', email);
+
       if (!email || !password) {
         errorMessage.textContent = 'Please enter email and password';
         return;
       }
 
       if (signUp) {
+        console.log('Attempting sign-up...');
         auth.createUserWithEmailAndPassword(email, password)
           .then(() => {
+            console.log('Sign-up successful');
             errorMessage.textContent = '';
           })
           .catch(error => {
+            console.error('Sign-up error:', error);
             errorMessage.textContent = error.message;
           });
       } else {
+        console.log('Attempting sign-in...');
         auth.signInWithEmailAndPassword(email, password)
           .then(() => {
+            console.log('Sign-in successful');
             errorMessage.textContent = '';
           })
           .catch(error => {
+            console.error('Sign-in error:', error);
             errorMessage.textContent = error.message;
           });
       }
+    }
+
+    function logout() {
+      auth.signOut()
+        .then(() => {
+          console.log('User signed out');
+          navigateToPath(['Library']); // Reset navigation
+        })
+        .catch(error => console.error('Sign-out error:', error));
     }
 
     // App Logic (Only runs after login)
@@ -833,6 +1038,7 @@
         'chapter': document.getElementById('chapter-view'),
         'pdf-viewer': document.getElementById('pdf-viewer-view'),
         'add': document.getElementById('add-view'),
+        'profile': document.getElementById('profile-view'),
         'reminders': document.getElementById('reminders-view'),
       };
 
@@ -911,7 +1117,7 @@
         id: i + 1,
         title: `Note ${i + 1}`,
         image: images[Math.floor(Math.random() * images.length)],
-        pdfLink: "https://drive.google.com/file/d/1LOeJQPmAURlnqrivIA2nNnoPZu6ZRreU/view?usp=sharing"
+        pdfLink: "https://drive.google.com/file/d/1LOeJQPmAURlnqrivIA2nNnoPZu6ZRreU/preview" // Updated to embed format
       }));
 
       const defaultChapters = Array.from({ length: 15 }, (_, i) => ({
@@ -923,8 +1129,12 @@
       hscSubjects.forEach(subject => {
         subject.papers["1st Paper"] = [...defaultChapters];
         subject.papers["2nd Paper"] = [...defaultChapters];
-        database.ref(`subjects/${subject.name}/1st Paper`).set(subject.papers["1st Paper"]);
-        database.ref(`subjects/${subject.name}/2nd Paper`).set(subject.papers["2nd Paper"]);
+        database.ref(`subjects/${subject.name}/1st Paper`).set(subject.papers["1st Paper"])
+          .then(() => console.log(`Initialized ${subject.name} 1st Paper`))
+          .catch(error => console.error('Error initializing 1st Paper:', error));
+        database.ref(`subjects/${subject.name}/2nd Paper`).set(subject.papers["2nd Paper"])
+          .then(() => console.log(`Initialized ${subject.name} 2nd Paper`))
+          .catch(error => console.error('Error initializing 2nd Paper:', error));
       });
 
       let currentPath = [];
@@ -938,9 +1148,10 @@
         const mainContent = document.querySelector('.main-content');
         const themeToggle = document.querySelector('.theme-toggle');
         const paths = document.querySelectorAll('.path');
-        const cards = document.querySelectorAll('.card, .note-card, .add-card, .add-form, .reminders-section, .todo-section, .reminder-card');
+        const cards = document.querySelectorAll('.card, .note-card, .add-card, .add-form, .profile-container, .reminders-section, .todo-section, .reminder-card');
         const todoForms = document.querySelectorAll('.todo-form');
         const reminderForms = document.querySelectorAll('.reminder-form');
+        const logoutBtn = document.querySelector('.logout-btn');
 
         if (body.classList.contains('light')) {
           body.classList.replace('light', 'dark');
@@ -952,6 +1163,7 @@
           cards.forEach(card => card.classList.replace('light', 'dark'));
           todoForms.forEach(form => form.classList.replace('light', 'dark'));
           reminderForms.forEach(form => form.classList.replace('light', 'dark'));
+          logoutBtn.classList.replace('light', 'dark');
         } else {
           body.classList.replace('dark', 'light');
           sidebar.classList.replace('dark', 'light');
@@ -962,6 +1174,7 @@
           cards.forEach(card => card.classList.replace('dark', 'light'));
           todoForms.forEach(form => form.classList.replace('dark', 'light'));
           reminderForms.forEach(form => form.classList.replace('dark', 'light'));
+          logoutBtn.classList.replace('dark', 'light');
         }
       }
 
@@ -994,6 +1207,7 @@
       }
 
       function renderHscSubjects() {
+        console.log('Rendering HSC subjects...');
         const grid = document.getElementById('hsc-subjects');
         grid.innerHTML = '';
         hscSubjects.forEach(subject => {
@@ -1006,6 +1220,7 @@
           };
           grid.appendChild(card);
         });
+        console.log('HSC subjects rendered:', hscSubjects.length);
       }
 
       function renderSubjectPapers() {
@@ -1044,6 +1259,8 @@
             };
             grid.appendChild(card);
           });
+        }).catch(error => {
+          console.error('Error fetching chapters:', error);
         });
       }
 
@@ -1073,6 +1290,7 @@
                 return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
               }).join('');
               document.getElementById('pdf-viewer').src = note.pdfLink;
+              document.getElementById('pdf-fallback-link').href = note.pdfLink.replace('/preview', '/view'); // Fallback link
             };
             grid.appendChild(card);
           });
@@ -1083,6 +1301,8 @@
           addCard.textContent = '+';
           addCard.onclick = () => showView('add');
           grid.appendChild(addCard);
+        }).catch(error => {
+          console.error('Error fetching notes:', error);
         });
       }
 
@@ -1135,9 +1355,16 @@
           }
 
           chapters[chapterIndex].notes = notes;
-          database.ref(`subjects/${subject}/${paper}`).set(chapters);
-          showView('chapter');
-          navigateToPath(['Library', subject, paper, chapter]);
+          database.ref(`subjects/${subject}/${paper}`).set(chapters)
+            .then(() => {
+              showView('chapter');
+              navigateToPath(['Library', subject, paper, chapter]);
+            })
+            .catch(error => {
+              console.error('Error saving note:', error);
+            });
+        }).catch(error => {
+          console.error('Error fetching chapters for update:', error);
         });
       }
 
@@ -1148,9 +1375,14 @@
         if (!text) return;
 
         const todo = { text: text, completed: false };
-        database.ref('todos').push(todo);
-        input.value = '';
-        renderTodos();
+        database.ref('todos').push(todo)
+          .then(() => {
+            input.value = '';
+            renderTodos();
+          })
+          .catch(error => {
+            console.error('Error adding todo:', error);
+          });
       }
 
       function renderTodos() {
@@ -1167,12 +1399,17 @@
             `;
             list.appendChild(item);
           });
+        }).catch(error => {
+          console.error('Error fetching todos:', error);
         });
       }
 
       function toggleTodo(id, completed) {
-        database.ref(`todos/${id}`).update({ completed });
-        renderTodos();
+        database.ref(`todos/${id}`).update({ completed })
+          .then(() => renderTodos())
+          .catch(error => {
+            console.error('Error updating todo:', error);
+          });
       }
 
       function addReminder() {
@@ -1183,18 +1420,22 @@
         if (!title || !time) return;
 
         const reminder = { title, note, time };
-        database.ref('reminders').push(reminder);
+        database.ref('reminders').push(reminder)
+          .then(() => {
+            const reminderTime = new Date(time).getTime();
+            const now = Date.now();
+            setTimeout(() => {
+              alert(`Reminder: ${title}\n${note}`);
+            }, reminderTime - now);
 
-        const reminderTime = new Date(time).getTime();
-        const now = Date.now();
-        setTimeout(() => {
-          alert(`Reminder: ${title}\n${note}`);
-        }, reminderTime - now);
-
-        document.getElementById('reminder-title').value = '';
-        document.getElementById('reminder-note').value = '';
-        document.getElementById('reminder-time').value = '';
-        renderReminders();
+            document.getElementById('reminder-title').value = '';
+            document.getElementById('reminder-note').value = '';
+            document.getElementById('reminder-time').value = '';
+            renderReminders();
+          })
+          .catch(error => {
+            console.error('Error adding reminder:', error);
+          });
       }
 
       function renderReminders() {
@@ -1213,12 +1454,17 @@
             `;
             list.appendChild(card);
           });
+        }).catch(error => {
+          console.error('Error fetching reminders:', error);
         });
       }
 
       function deleteReminder(id) {
-        database.ref(`reminders/${id}`).remove();
-        renderReminders();
+        database.ref(`reminders/${id}`).remove()
+          .then(() => renderReminders())
+          .catch(error => {
+            console.error('Error deleting reminder:', error);
+          });
       }
 
       // Sidebar Navigation
@@ -1232,17 +1478,16 @@
         renderTodos();
         renderReminders();
       };
-      document.getElementById('profile').onclick = () => { };
-      document.getElementById('invoices').onclick = () => { };
-      document.getElementById('settings').onclick = () => { };
-      document.getElementById('logout').onclick = () => {
-        auth.signOut();
+      document.getElementById('profile').onclick = () => {
+        showView('profile');
       };
+      document.getElementById('invoices').onclick = () => {};
+      document.getElementById('settings').onclick = () => {};
+      document.getElementById('logout').onclick = logout;
 
       // Initial Render
       navigateToPath(['Library']);
     }
   </script>
 </body>
-
 </html>
