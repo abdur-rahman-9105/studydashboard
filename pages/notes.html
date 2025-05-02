@@ -197,6 +197,8 @@
       min-width: 0;
       box-sizing: border-box;
       background-color: var(--background-color);
+      display: flex;
+      flex-direction: column;
     }
 
     /* Path Styles */
@@ -204,6 +206,7 @@
       font-size: 14px;
       margin-bottom: 16px;
       color: var(--text-color);
+      display: block;
     }
 
     .path span {
@@ -873,20 +876,6 @@
     const appContainer = document.getElementById('app-container');
     let isSignUp = false;
 
-    // Simulated authentication (since Firebase is not working)
-    const user = localStorage.getItem('user');
-    if (user) {
-      loadingContainer.style.display = 'none';
-      loginContainer.style.display = 'none';
-      appContainer.style.display = 'flex';
-      document.getElementById('user-email').textContent = user;
-      initializeApp();
-    } else {
-      loadingContainer.style.display = 'none';
-      loginContainer.style.display = 'flex';
-      appContainer.style.display = 'none';
-    }
-
     function toggleAuthMode() {
       isSignUp = !isSignUp;
       document.getElementById('auth-title').textContent = isSignUp ? 'Sign Up' : 'Login';
@@ -937,7 +926,7 @@
       }
     }
 
-    function initializeApp() {
+    function showView(viewId) {
       const views = {
         'my-notes': document.getElementById('my-notes-view'),
         'subject': document.getElementById('subject-view'),
@@ -948,7 +937,6 @@
         'profile': document.getElementById('profile-view'),
         'reminders': document.getElementById('reminders-view'),
       };
-
       const sidebarItems = {
         'my-notes': document.getElementById('my-notes'),
         'add': document.getElementById('add'),
@@ -959,48 +947,51 @@
         'logout': document.getElementById('logout'),
       };
 
-      function showView(viewId) {
-        Object.values(views).forEach(view => view.style.display = 'none');
-        views[viewId].style.display = 'block';
+      Object.values(views).forEach(view => view.style.display = 'none');
+      views[viewId].style.display = 'block';
 
-        Object.values(sidebarItems).forEach(item => item.classList.remove('active'));
-        sidebarItems[viewId]?.classList.add('active');
+      Object.values(sidebarItems).forEach(item => item.classList.remove('active'));
+      sidebarItems[viewId]?.classList.add('active');
+    }
+
+    function navigateToPath(path) {
+      currentPath = path;
+      if (path.length === 1) {
+        showView('my-notes');
+        renderHscSubjects();
+      } else if (path.length === 2) {
+        currentSubject = hscSubjects.find(s => s.name === path[1]);
+        showView('subject');
+        renderSubjectPapers();
+      } else if (path.length === 3) {
+        currentPaper = path[2];
+        showView('paper');
+        renderPaperChapters();
+      } else if (path.length === 4) {
+        currentChapter = path[3];
+        showView('chapter');
+        renderChapterNotes();
       }
+    }
 
-      function navigateToPath(path) {
-        currentPath = path;
-        if (path.length === 1) {
-          showView('my-notes');
-          renderHscSubjects();
-        } else if (path.length === 2) {
-          currentSubject = hscSubjects.find(s => s.name === path[1]);
-          showView('subject');
-          renderSubjectPapers();
-        } else if (path.length === 3) {
-          currentPaper = path[2];
-          showView('paper');
-          renderPaperChapters();
-        } else if (path.length === 4) {
-          currentChapter = path[3];
-          showView('chapter');
-          renderChapterNotes();
-        }
-      }
+    function navigateToPathByIndex(index) {
+      navigateToPath(currentPath.slice(0, index + 1));
+    }
 
-      function navigateToPathByIndex(index) {
-        navigateToPath(currentPath.slice(0, index + 1));
-      }
-
-      function renderPath(pathElementId) {
-        document.getElementById(pathElementId).innerHTML = currentPath.map((part, index) => {
+    function renderPath(pathElementId) {
+      const pathElement = document.getElementById(pathElementId);
+      if (pathElement) {
+        pathElement.innerHTML = currentPath.map((part, index) => {
           return `<span onclick='navigateToPathByIndex(${index})'>${part}</span>`;
         }).join('');
       }
+    }
 
-      function renderHscSubjects() {
-        currentPath = ['Library'];
-        renderPath('hsc-path');
-        const grid = document.getElementById('hsc-subjects');
+    function renderHscSubjects() {
+      currentPath = ['Library'];
+      renderPath('hsc-path');
+      const grid = document.getElementById('hsc-subjects');
+      if (grid) {
         grid.innerHTML = '';
         hscSubjects.forEach(subject => {
           const card = document.createElement('div');
@@ -1013,10 +1004,12 @@
           grid.appendChild(card);
         });
       }
+    }
 
-      function renderSubjectPapers() {
-        renderPath('subject-path');
-        const grid = document.getElementById('subject-papers');
+    function renderSubjectPapers() {
+      renderPath('subject-path');
+      const grid = document.getElementById('subject-papers');
+      if (grid) {
         grid.innerHTML = '';
         ['1st Paper', '2nd Paper'].forEach(paper => {
           const card = document.createElement('div');
@@ -1029,10 +1022,12 @@
           grid.appendChild(card);
         });
       }
+    }
 
-      function renderPaperChapters() {
-        renderPath('paper-path');
-        const grid = document.getElementById('paper-chapters');
+    function renderPaperChapters() {
+      renderPath('paper-path');
+      const grid = document.getElementById('paper-chapters');
+      if (grid) {
         grid.innerHTML = '';
         const chapters = hscSubjects.find(s => s.name === currentSubject.name).papers[currentPaper] || [];
         chapters.forEach(chapter => {
@@ -1046,10 +1041,12 @@
           grid.appendChild(card);
         });
       }
+    }
 
-      function renderChapterNotes() {
-        renderPath('chapter-path');
-        const grid = document.getElementById('chapter-notes');
+    function renderChapterNotes() {
+      renderPath('chapter-path');
+      const grid = document.getElementById('chapter-notes');
+      if (grid) {
         grid.innerHTML = '';
         const subject = hscSubjects.find(s => s.name === currentSubject.name);
         const chapters = subject.papers[currentPaper] || [];
@@ -1080,10 +1077,12 @@
         addCard.onclick = () => showView('add');
         grid.appendChild(addCard);
       }
+    }
 
-      function populateAddDropdowns() {
-        const subjectSelect = document.getElementById('add-subject');
-        const chapterSelect = document.getElementById('add-chapter');
+    function populateAddDropdowns() {
+      const subjectSelect = document.getElementById('add-subject');
+      const chapterSelect = document.getElementById('add-chapter');
+      if (subjectSelect && chapterSelect) {
         subjectSelect.innerHTML = '';
         chapterSelect.innerHTML = '';
         hscSubjects.forEach(subject => {
@@ -1099,67 +1098,69 @@
           chapterSelect.appendChild(option);
         });
       }
+    }
 
-      function addOrUpdateNote() {
-        const addError = document.getElementById('add-error');
-        const subject = document.getElementById('add-subject').value;
-        const paper = document.getElementById('add-paper').value;
-        const chapter = document.getElementById('add-chapter').value;
-        const title = document.getElementById('add-note-title').value;
-        const link = document.getElementById('add-note-link').value;
+    function addOrUpdateNote() {
+      const addError = document.getElementById('add-error');
+      const subject = document.getElementById('add-subject').value;
+      const paper = document.getElementById('add-paper').value;
+      const chapter = document.getElementById('add-chapter').value;
+      const title = document.getElementById('add-note-title').value;
+      const link = document.getElementById('add-note-link').value;
 
-        if (!title || !link) {
-          addError.textContent = 'Please fill in all fields';
-          return;
-        }
-
-        const subjectIndex = hscSubjects.findIndex(s => s.name === subject);
-        const chapters = hscSubjects[subjectIndex].papers[paper] || [];
-        const chapterIndex = chapters.findIndex(ch => ch.name === chapter);
-        let notes = chapters[chapterIndex]?.notes || [];
-        const noteIndex = notes.findIndex(note => note.title === title);
-
-        const newNote = {
-          id: noteIndex === -1 ? Date.now() : notes[noteIndex].id,
-          title: title,
-          image: images[Math.floor(Math.random() * images.length)],
-          pdfLink: link
-        };
-
-        if (noteIndex !== -1) {
-          notes[noteIndex] = newNote;
-        } else {
-          notes.push(newNote);
-        }
-
-        if (chapterIndex === -1) {
-          chapters.push({ name: chapter, notes: [newNote] });
-        } else {
-          chapters[chapterIndex].notes = notes;
-        }
-
-        hscSubjects[subjectIndex].papers[paper] = chapters;
-        localStorage.setItem('hscSubjects', JSON.stringify(hscSubjects));
-
-        addError.textContent = '';
-        showView('chapter');
-        navigateToPath(['Library', subject, paper, chapter]);
+      if (!title || !link) {
+        addError.textContent = 'Please fill in all fields';
+        return;
       }
 
-      function addTodo() {
-        const input = document.getElementById('todo-input');
-        const text = input.value.trim();
-        if (!text) return;
+      const subjectIndex = hscSubjects.findIndex(s => s.name === subject);
+      const chapters = hscSubjects[subjectIndex].papers[paper] || [];
+      const chapterIndex = chapters.findIndex(ch => ch.name === chapter);
+      let notes = chapters[chapterIndex]?.notes || [];
+      const noteIndex = notes.findIndex(note => note.title === title);
 
-        const todo = { id: Date.now(), text: text, completed: false };
-        todos.push(todo);
-        localStorage.setItem('todos', JSON.stringify(todos));
-        input.value = '';
-        renderTodos();
+      const newNote = {
+        id: noteIndex === -1 ? Date.now() : notes[noteIndex].id,
+        title: title,
+        image: images[Math.floor(Math.random() * images.length)],
+        pdfLink: link
+      };
+
+      if (noteIndex !== -1) {
+        notes[noteIndex] = newNote;
+      } else {
+        notes.push(newNote);
       }
 
-      function renderTodos() {
-        const list = document.getElementById('todo-list');
+      if (chapterIndex === -1) {
+        chapters.push({ name: chapter, notes: [newNote] });
+      } else {
+        chapters[chapterIndex].notes = notes;
+      }
+
+      hscSubjects[subjectIndex].papers[paper] = chapters;
+      localStorage.setItem('hscSubjects', JSON.stringify(hscSubjects));
+
+      addError.textContent = '';
+      showView('chapter');
+      navigateToPath(['Library', subject, paper, chapter]);
+    }
+
+    function addTodo() {
+      const input = document.getElementById('todo-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const todo = { id: Date.now(), text: text, completed: false };
+      todos.push(todo);
+      localStorage.setItem('todos', JSON.stringify(todos));
+      input.value = '';
+      renderTodos();
+    }
+
+    function renderTodos() {
+      const list = document.getElementById('todo-list');
+      if (list) {
         list.innerHTML = '';
         todos.forEach(todo => {
           const item = document.createElement('div');
@@ -1173,56 +1174,58 @@
           list.appendChild(item);
         });
       }
+    }
 
-      function toggleTodo(id, completed) {
-        todos = todos.map(todo => todo.id === id ? { ...todo, completed } : todo);
+    function toggleTodo(id, completed) {
+      todos = todos.map(todo => todo.id === id ? { ...todo, completed } : todo);
+      localStorage.setItem('todos', JSON.stringify(todos));
+      renderTodos();
+    }
+
+    function editTodo(id, currentText) {
+      const newText = prompt('Edit to-do item:', currentText);
+      if (newText && newText.trim()) {
+        todos = todos.map(todo => todo.id === id ? { ...todo, text: newText.trim() } : todo);
         localStorage.setItem('todos', JSON.stringify(todos));
         renderTodos();
       }
+    }
 
-      function editTodo(id, currentText) {
-        const newText = prompt('Edit to-do item:', currentText);
-        if (newText && newText.trim()) {
-          todos = todos.map(todo => todo.id === id ? { ...todo, text: newText.trim() } : todo);
-          localStorage.setItem('todos', JSON.stringify(todos));
-          renderTodos();
-        }
+    function deleteTodo(id) {
+      todos = todos.filter(todo => todo.id !== id);
+      localStorage.setItem('todos', JSON.stringify(todos));
+      renderTodos();
+    }
+
+    function addReminder() {
+      const title = document.getElementById('reminder-title').value;
+      const note = document.getElementById('reminder-note').value;
+      const time = document.getElementById('reminder-time').value;
+
+      if (!title || !time) {
+        alert('Please fill in title and time');
+        return;
       }
 
-      function deleteTodo(id) {
-        todos = todos.filter(todo => todo.id !== id);
-        localStorage.setItem('todos', JSON.stringify(todos));
-        renderTodos();
-      }
+      const reminder = { id: Date.now(), title, note, time };
+      reminders.push(reminder);
+      localStorage.setItem('reminders', JSON.stringify(reminders));
 
-      function addReminder() {
-        const title = document.getElementById('reminder-title').value;
-        const note = document.getElementById('reminder-note').value;
-        const time = document.getElementById('reminder-time').value;
+      const reminderTime = new Date(time).getTime();
+      const now = Date.now();
+      setTimeout(() => {
+        alert(`Reminder: ${title}\n${note}`);
+      }, reminderTime - now);
 
-        if (!title || !time) {
-          alert('Please fill in title and time');
-          return;
-        }
+      document.getElementById('reminder-title').value = '';
+      document.getElementById('reminder-note').value = '';
+      document.getElementById('reminder-time').value = '';
+      renderReminders();
+    }
 
-        const reminder = { id: Date.now(), title, note, time };
-        reminders.push(reminder);
-        localStorage.setItem('reminders', JSON.stringify(reminders));
-
-        const reminderTime = new Date(time).getTime();
-        const now = Date.now();
-        setTimeout(() => {
-          alert(`Reminder: ${title}\n${note}`);
-        }, reminderTime - now);
-
-        document.getElementById('reminder-title').value = '';
-        document.getElementById('reminder-note').value = '';
-        document.getElementById('reminder-time').value = '';
-        renderReminders();
-      }
-
-      function renderReminders() {
-        const list = document.getElementById('reminder-list');
+    function renderReminders() {
+      const list = document.getElementById('reminder-list');
+      if (list) {
         list.innerHTML = '';
         reminders.forEach(reminder => {
           const card = document.createElement('div');
@@ -1236,13 +1239,15 @@
           list.appendChild(card);
         });
       }
+    }
 
-      function deleteReminder(id) {
-        reminders = reminders.filter(reminder => reminder.id !== id);
-        localStorage.setItem('reminders', JSON.stringify(reminders));
-        renderReminders();
-      }
+    function deleteReminder(id) {
+      reminders = reminders.filter(reminder => reminder.id !== id);
+      localStorage.setItem('reminders', JSON.stringify(reminders));
+      renderReminders();
+    }
 
+    function initializeApp() {
       document.getElementById('my-notes').onclick = () => navigateToPath(['Library']);
       document.getElementById('add').onclick = () => {
         showView('add');
@@ -1262,6 +1267,21 @@
 
       navigateToPath(['Library']);
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        loadingContainer.style.display = 'none';
+        loginContainer.style.display = 'none';
+        appContainer.style.display = 'flex';
+        document.getElementById('user-email').textContent = user;
+        initializeApp();
+      } else {
+        loadingContainer.style.display = 'none';
+        loginContainer.style.display = 'flex';
+        appContainer.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
