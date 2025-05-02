@@ -111,22 +111,14 @@
 
     .login-form button {
       width: 100%;
-      padding: 12px 16px; /* Larger tap target for mobile */
+      padding: 12px 16px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       margin-bottom: 8px;
       font-size: 16px;
-    }
-
-    .login-form.light button {
-      background-color: #3182ce;
+      background-color: #4a4a4a; /* Blackish-gray */
       color: #ffffff;
-    }
-
-    .login-form.dark button {
-      background-color: #63b3ed;
-      color: #1a202c;
     }
 
     .login-form button:hover {
@@ -144,7 +136,7 @@
       text-align: center;
       font-size: 14px;
       cursor: pointer;
-      padding: 8px; /* Larger tap target for mobile */
+      padding: 8px;
     }
 
     .login-form.light .toggle-auth {
@@ -235,21 +227,13 @@
     /* Updated Logout Button */
     .sidebar .logout-btn {
       margin: 16px;
-      padding: 12px 16px; /* Larger tap target for mobile */
+      padding: 12px 16px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       text-align: center;
       font-size: 16px;
-    }
-
-    .sidebar.light .logout-btn {
-      background-color: #e53e3e;
-      color: #ffffff;
-    }
-
-    .sidebar.dark .logout-btn {
-      background-color: #c53030;
+      background-color: #4a4a4a; /* Blackish-gray */
       color: #ffffff;
     }
 
@@ -259,6 +243,8 @@
       padding: 24px;
       overflow-y: auto;
       transition: background-color 0.3s;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .main-content.light {
@@ -285,7 +271,7 @@
 
     .path span {
       cursor: pointer;
-      padding: 4px; /* Larger tap target for mobile */
+      padding: 4px;
     }
 
     .path.light span {
@@ -318,27 +304,19 @@
       position: fixed;
       top: 16px;
       right: 16px;
-      padding: 12px; /* Larger tap target for mobile */
+      padding: 12px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
-    }
-
-    .theme-toggle.light {
-      background-color: #3182ce;
+      background-color: #4a4a4a; /* Blackish-gray */
       color: #ffffff;
-    }
-
-    .theme-toggle.dark {
-      background-color: #63b3ed;
-      color: #1a202c;
     }
 
     /* Button Grid (for Subjects, Papers, Chapters, Notes) */
     .button-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 24px;
     }
 
@@ -486,25 +464,24 @@
     }
 
     .add-form button {
-      padding: 12px 16px; /* Larger tap target for mobile */
+      padding: 12px 16px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
-    }
-
-    .add-form.light button {
-      background-color: #3182ce;
+      background-color: #4a4a4a; /* Blackish-gray */
       color: #ffffff;
-    }
-
-    .add-form.dark button {
-      background-color: #63b3ed;
-      color: #1a202c;
     }
 
     .add-form button:hover {
       opacity: 0.9;
+    }
+
+    .add-form .error {
+      color: #e53e3e;
+      font-size: 14px;
+      margin-bottom: 16px;
+      text-align: center;
     }
 
     /* Profile Page Styles */
@@ -544,20 +521,12 @@
     }
 
     .profile-container button {
-      padding: 12px 16px; /* Larger tap target for mobile */
+      padding: 12px 16px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
-    }
-
-    .profile-container.light button {
-      background-color: #e53e3e;
-      color: #ffffff;
-    }
-
-    .profile-container.dark button {
-      background-color: #c53030;
+      background-color: #4a4a4a; /* Blackish-gray */
       color: #ffffff;
     }
 
@@ -593,12 +562,13 @@
       display: flex;
       align-items: center;
       margin-bottom: 8px;
+      flex-wrap: wrap;
     }
 
     .todo-item input[type="checkbox"] {
       margin-right: 8px;
       width: 20px;
-      height: 20px; /* Larger checkbox for mobile */
+      height: 20px;
     }
 
     .todo-item.completed label {
@@ -611,6 +581,17 @@
 
     .todo-item.dark.completed label {
       color: #a0aec0;
+    }
+
+    .todo-item button {
+      padding: 4px 8px;
+      margin-left: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      background-color: #4a4a4a; /* Blackish-gray */
+      color: #ffffff;
     }
 
     .reminder-card {
@@ -646,21 +627,13 @@
     }
 
     .reminder-card button {
-      padding: 8px 12px; /* Larger tap target for mobile */
+      padding: 8px 12px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       margin-left: 8px;
       font-size: 14px;
-    }
-
-    .reminder-card.light button {
-      background-color: #e53e3e;
-      color: #ffffff;
-    }
-
-    .reminder-card.dark button {
-      background-color: #c53030;
+      background-color: #4a4a4a; /* Blackish-gray */
       color: #ffffff;
     }
 
@@ -674,27 +647,19 @@
     }
 
     .reminder-form button, .todo-form button {
-      padding: 12px 16px; /* Larger tap target for mobile */
+      padding: 12px 16px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
-    }
-
-    .reminder-form.light button, .todo-form.light button {
-      background-color: #3182ce;
+      background-color: #4a4a4a; /* Blackish-gray */
       color: #ffffff;
-    }
-
-    .reminder-form.dark button, .todo-form.dark button {
-      background-color: #63b3ed;
-      color: #1a202c;
     }
 
     /* PDF Viewer */
     .pdf-viewer {
       width: 100%;
-      height: 80vh;
+      height: calc(100vh - 60px); /* Fill area beside sidebar */
       border: none;
     }
 
@@ -713,11 +678,31 @@
       text-decoration: underline;
     }
 
+    /* Hamburger Menu for Mobile */
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      padding: 16px;
+      cursor: pointer;
+    }
+
+    .hamburger.light {
+      color: #2d3748;
+    }
+
+    .hamburger.dark {
+      color: #ffffff;
+    }
+
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
       body {
         flex-direction: column;
-        overflow-y: auto; /* Allow scrolling on mobile */
+        overflow-y: auto;
+      }
+
+      .hamburger {
+        display: block;
       }
 
       .sidebar {
@@ -726,30 +711,33 @@
         border-bottom: 1px solid #e2e8f0;
         height: auto;
         padding-bottom: 0;
+        display: none;
+      }
+
+      .sidebar.active {
+        display: flex;
       }
 
       .sidebar ul {
-        display: flex;
-        flex-wrap: wrap;
         margin: 0;
         padding: 8px 0;
       }
 
       .sidebar li {
-        flex: 1;
+        padding: 16px;
+        font-size: 16px;
         text-align: center;
-        padding: 12px 8px;
-        font-size: 14px;
       }
 
       .sidebar .logout-btn {
-        width: calc(100% - 32px); /* Account for margin */
+        width: calc(100% - 32px);
         margin: 8px 16px;
         padding: 12px;
       }
 
       .main-content {
         padding: 16px;
+        width: 100%;
       }
 
       .theme-toggle {
@@ -764,15 +752,24 @@
       }
 
       .card {
-        height: 150px; /* Smaller height for mobile */
+        height: 120px;
+        font-size: 14px;
+      }
+
+      .card-content h3 {
+        font-size: 14px;
       }
 
       .note-card img, .note-card iframe {
-        height: 120px; /* Smaller image height for mobile */
+        height: 100px;
+      }
+
+      .note-card-content h3 {
+        font-size: 14px;
       }
 
       .add-card {
-        height: 150px;
+        height: 120px;
         font-size: 36px;
       }
 
@@ -782,7 +779,7 @@
       }
 
       .pdf-viewer {
-        height: 50vh; /* Smaller height for mobile */
+        height: 40vh; /* Smaller height for mobile */
       }
 
       .login-container, .add-form, .profile-container {
@@ -820,7 +817,8 @@
 
   <!-- Main App Content (Hidden until logged in) -->
   <div id="app-container" style="display: none;">
-    <div class="sidebar light">
+    <div class="hamburger light" id="hamburger" onclick="toggleSidebar()">☰</div>
+    <div class="sidebar light" id="sidebar">
       <div class="logo">ASG Compressed Note</div>
       <ul>
         <li id="my-notes" class="active">My Notes</li>
@@ -838,10 +836,7 @@
 
       <!-- My Notes View (HSC Level) -->
       <div id="my-notes-view">
-        <div class="path light">
-          <span onclick="navigateToPath(['Library'])">Library</span>
-          <span>এইচএসসি</span>
-        </div>
+        <div class="path light" id="hsc-path"></div>
         <div class="button-grid" id="hsc-subjects"></div>
       </div>
 
@@ -876,6 +871,7 @@
       <div id="add-view" style="display: none;">
         <div class="add-form light">
           <h2>Add/Update Note</h2>
+          <div id="add-error" class="error"></div>
           <label for="add-subject">Subject:</label>
           <select id="add-subject"></select>
           <label for="add-paper">Paper:</label>
@@ -931,13 +927,13 @@
   <script>
     // Firebase Configuration with Provided Values
     const firebaseConfig = {
-      apiKey: "AIzaSyA9kAjTszIOWPja1LJictplSR1X8v2TQN4", // Provided API key (may be invalid)
+      apiKey: "AIzaSyA9kAjTszIOWPja1LJictplSR1X8v2TQN4",
       authDomain: "armyspace-66bee.firebaseapp.com",
       databaseURL: "https://armyspace-66bee-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "armyspace-66bee",
       storageBucket: "armyspace-66bee.appspot.com",
       messagingSenderId: "89865891891",
-      appId: "1:89865891891:web:6b373b7cfe03b6635f3346" // Provided appId
+      appId: "1:89865891891:web:6b373b7cfe03b6635f3346"
     };
 
     // Initialize Firebase
@@ -964,14 +960,12 @@
     auth.onAuthStateChanged(user => {
       console.log('Auth state changed:', user);
       if (user) {
-        // User is signed in
         loadingContainer.style.display = 'none';
         loginContainer.style.display = 'none';
         appContainer.style.display = 'flex';
-        document.getElementById('user-email').textContent = user.email; // Set email in profile view
+        document.getElementById('user-email').textContent = user.email;
         initializeApp();
       } else {
-        // User is signed out
         loadingContainer.style.display = 'none';
         loginContainer.style.display = 'flex';
         appContainer.style.display = 'none';
@@ -988,33 +982,25 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      console.log('handleAuth called, signUp:', signUp, 'email:', email);
-
       if (!email || !password) {
         errorMessage.textContent = 'Please enter email and password';
         return;
       }
 
       if (signUp) {
-        console.log('Attempting sign-up...');
         auth.createUserWithEmailAndPassword(email, password)
           .then(() => {
-            console.log('Sign-up successful');
             errorMessage.textContent = '';
           })
           .catch(error => {
-            console.error('Sign-up error:', error);
             errorMessage.textContent = error.message;
           });
       } else {
-        console.log('Attempting sign-in...');
         auth.signInWithEmailAndPassword(email, password)
           .then(() => {
-            console.log('Sign-in successful');
             errorMessage.textContent = '';
           })
           .catch(error => {
-            console.error('Sign-in error:', error);
             errorMessage.textContent = error.message;
           });
       }
@@ -1023,10 +1009,14 @@
     function logout() {
       auth.signOut()
         .then(() => {
-          console.log('User signed out');
-          navigateToPath(['Library']); // Reset navigation
+          navigateToPath(['Library']);
         })
         .catch(error => console.error('Sign-out error:', error));
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
     }
 
     // App Logic (Only runs after login)
@@ -1054,7 +1044,7 @@
 
       const hscSubjects = [
         {
-          name: "উচ্চতর গণিত ১ম ও ২য় পত্র",
+          name: "এইচএসসি",
           papers: {
             "1st Paper": {},
             "2nd Paper": {}
@@ -1117,7 +1107,7 @@
         id: i + 1,
         title: `Note ${i + 1}`,
         image: images[Math.floor(Math.random() * images.length)],
-        pdfLink: "https://drive.google.com/file/d/1LOeJQPmAURlnqrivIA2nNnoPZu6ZRreU/preview" // Updated to embed format
+        pdfLink: "https://drive.google.com/file/d/1LOeJQPmAURlnqrivIA2nNnoPZu6ZRreU/preview"
       }));
 
       const defaultChapters = Array.from({ length: 15 }, (_, i) => ({
@@ -1145,6 +1135,7 @@
       function toggleTheme() {
         const body = document.body;
         const sidebar = document.querySelector('.sidebar');
+        const hamburger = document.querySelector('.hamburger');
         const mainContent = document.querySelector('.main-content');
         const themeToggle = document.querySelector('.theme-toggle');
         const paths = document.querySelectorAll('.path');
@@ -1156,8 +1147,8 @@
         if (body.classList.contains('light')) {
           body.classList.replace('light', 'dark');
           sidebar.classList.replace('light', 'dark');
+          hamburger.classList.replace('light', 'dark');
           mainContent.classList.replace('light', 'dark');
-          themeToggle.classList.replace('light', 'dark');
           themeToggle.textContent = 'Light Mode';
           paths.forEach(path => path.classList.replace('light', 'dark'));
           cards.forEach(card => card.classList.replace('light', 'dark'));
@@ -1167,8 +1158,8 @@
         } else {
           body.classList.replace('dark', 'light');
           sidebar.classList.replace('dark', 'light');
+          hamburger.classList.replace('dark', 'light');
           mainContent.classList.replace('dark', 'light');
-          themeToggle.classList.replace('dark', 'light');
           themeToggle.textContent = 'Dark Mode';
           paths.forEach(path => path.classList.replace('dark', 'light'));
           cards.forEach(card => card.classList.replace('dark', 'light'));
@@ -1206,8 +1197,16 @@
         }
       }
 
+      function renderPath(pathElementId) {
+        document.getElementById(pathElementId).innerHTML = currentPath.map((part, index) => {
+          const pathSlice = JSON.stringify(currentPath.slice(0, index + 1));
+          return `<span onclick='navigateToPath(${pathSlice})'>${part}</span>`;
+        }).join('');
+      }
+
       function renderHscSubjects() {
-        console.log('Rendering HSC subjects...');
+        currentPath = ['Library'];
+        renderPath('hsc-path');
         const grid = document.getElementById('hsc-subjects');
         grid.innerHTML = '';
         hscSubjects.forEach(subject => {
@@ -1220,13 +1219,10 @@
           };
           grid.appendChild(card);
         });
-        console.log('HSC subjects rendered:', hscSubjects.length);
       }
 
       function renderSubjectPapers() {
-        document.getElementById('subject-path').innerHTML = currentPath.map((part, index) => {
-          return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
-        }).join('');
+        renderPath('subject-path');
         const grid = document.getElementById('subject-papers');
         grid.innerHTML = '';
         ['1st Paper', '2nd Paper'].forEach(paper => {
@@ -1242,9 +1238,7 @@
       }
 
       function renderPaperChapters() {
-        document.getElementById('paper-path').innerHTML = currentPath.map((part, index) => {
-          return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
-        }).join('');
+        renderPath('paper-path');
         const grid = document.getElementById('paper-chapters');
         grid.innerHTML = '';
         database.ref(`subjects/${currentSubject.name}/${currentPaper}`).once('value', snapshot => {
@@ -1265,9 +1259,7 @@
       }
 
       function renderChapterNotes() {
-        document.getElementById('chapter-path').innerHTML = currentPath.map((part, index) => {
-          return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
-        }).join('');
+        renderPath('chapter-path');
         const grid = document.getElementById('chapter-notes');
         grid.innerHTML = '';
         database.ref(`subjects/${currentSubject.name}/${currentPaper}`).once('value', snapshot => {
@@ -1286,11 +1278,9 @@
             card.onclick = () => {
               currentPath.push(note.title);
               showView('pdf-viewer');
-              document.getElementById('pdf-path').innerHTML = currentPath.map((part, index) => {
-                return `<span onclick="navigateToPath(currentPath.slice(0, ${index + 1}))">${part}</span>`;
-              }).join('');
+              renderPath('pdf-path');
               document.getElementById('pdf-viewer').src = note.pdfLink;
-              document.getElementById('pdf-fallback-link').href = note.pdfLink.replace('/preview', '/view'); // Fallback link
+              document.getElementById('pdf-fallback-link').href = note.pdfLink.replace('/preview', '/view');
             };
             grid.appendChild(card);
           });
@@ -1327,13 +1317,17 @@
       }
 
       function addOrUpdateNote() {
+        const addError = document.getElementById('add-error');
         const subject = document.getElementById('add-subject').value;
         const paper = document.getElementById('add-paper').value;
         const chapter = document.getElementById('add-chapter').value;
         const title = document.getElementById('add-note-title').value;
         const link = document.getElementById('add-note-link').value;
 
-        if (!title || !link) return;
+        if (!title || !link) {
+          addError.textContent = 'Please fill in all fields';
+          return;
+        }
 
         database.ref(`subjects/${subject}/${paper}`).once('value', snapshot => {
           const chapters = snapshot.val() || [];
@@ -1349,22 +1343,23 @@
           };
 
           if (noteIndex !== -1) {
-            notes[noteIndex] = newNote; // Update existing note
+            notes[noteIndex] = newNote;
           } else {
-            notes.push(newNote); // Add new note
+            notes.push(newNote);
           }
 
           chapters[chapterIndex].notes = notes;
           database.ref(`subjects/${subject}/${paper}`).set(chapters)
             .then(() => {
+              addError.textContent = '';
               showView('chapter');
               navigateToPath(['Library', subject, paper, chapter]);
             })
             .catch(error => {
-              console.error('Error saving note:', error);
+              addError.textContent = 'Error saving note: ' + error.message;
             });
         }).catch(error => {
-          console.error('Error fetching chapters for update:', error);
+          addError.textContent = 'Error fetching chapters: ' + error.message;
         });
       }
 
@@ -1382,6 +1377,7 @@
           })
           .catch(error => {
             console.error('Error adding todo:', error);
+            alert('Error adding to-do: ' + error.message);
           });
       }
 
@@ -1396,11 +1392,14 @@
             item.innerHTML = `
               <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodo('${id}', ${!todo.completed})">
               <label>${todo.text}</label>
+              <button onclick="editTodo('${id}', '${todo.text}')">Edit</button>
+              <button onclick="deleteTodo('${id}')">Delete</button>
             `;
             list.appendChild(item);
           });
         }).catch(error => {
           console.error('Error fetching todos:', error);
+          alert('Error fetching to-dos: ' + error.message);
         });
       }
 
@@ -1409,6 +1408,28 @@
           .then(() => renderTodos())
           .catch(error => {
             console.error('Error updating todo:', error);
+            alert('Error updating to-do: ' + error.message);
+          });
+      }
+
+      function editTodo(id, currentText) {
+        const newText = prompt('Edit to-do item:', currentText);
+        if (newText && newText.trim()) {
+          database.ref(`todos/${id}`).update({ text: newText.trim() })
+            .then(() => renderTodos())
+            .catch(error => {
+              console.error('Error editing todo:', error);
+              alert('Error editing to-do: ' + error.message);
+            });
+        }
+      }
+
+      function deleteTodo(id) {
+        database.ref(`todos/${id}`).remove()
+          .then(() => renderTodos())
+          .catch(error => {
+            console.error('Error deleting todo:', error);
+            alert('Error deleting to-do: ' + error.message);
           });
       }
 
@@ -1417,7 +1438,10 @@
         const note = document.getElementById('reminder-note').value;
         const time = document.getElementById('reminder-time').value;
 
-        if (!title || !time) return;
+        if (!title || !time) {
+          alert('Please fill in title and time');
+          return;
+        }
 
         const reminder = { title, note, time };
         database.ref('reminders').push(reminder)
@@ -1435,6 +1459,7 @@
           })
           .catch(error => {
             console.error('Error adding reminder:', error);
+            alert('Error adding reminder: ' + error.message);
           });
       }
 
@@ -1456,6 +1481,7 @@
           });
         }).catch(error => {
           console.error('Error fetching reminders:', error);
+          alert('Error fetching reminders: ' + error.message);
         });
       }
 
@@ -1464,6 +1490,7 @@
           .then(() => renderReminders())
           .catch(error => {
             console.error('Error deleting reminder:', error);
+            alert('Error deleting reminder: ' + error.message);
           });
       }
 
